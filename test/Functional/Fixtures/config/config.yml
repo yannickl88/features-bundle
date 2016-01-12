@@ -1,0 +1,15 @@
+services:
+    app.feature.foo_provider:
+        class: Yannickl88\FeaturesBundle\Functional\Fixtures\Model\FooProvider
+        tags:
+            - { name: feature.provider, config-key: foo }
+
+framework:
+    secret: test
+
+features:
+    tags:
+        test:
+            foo: ~
+        test2:
+            foo: [42]
