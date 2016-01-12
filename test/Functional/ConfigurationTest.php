@@ -18,11 +18,17 @@ class ConfigurationTest extends KernelTestCase
         // check if all the feature services are correcly configured
         $feature_test  = $container->get('features.tag.test');
         $feature_test2 = $container->get('features.tag.test2');
+        $feature_test3 = $container->get('features.tag.test3');
+        $feature_test4 = $container->get('features.tag.test4');
 
         self::assertFalse($feature_test->isActive());
         self::assertEquals('test', $feature_test->getName());
         self::assertTrue($feature_test2->isActive());
         self::assertEquals('test2', $feature_test2->getName());
+        self::assertFalse($feature_test3->isActive());
+        self::assertEquals('test3', $feature_test3->getName());
+        self::assertTrue($feature_test4->isActive());
+        self::assertEquals('test4', $feature_test4->getName());
 
         // check if all the feature services are correcly injected
         self::assertEquals($feature_test, $container->get('app.test')->feature);

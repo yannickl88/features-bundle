@@ -1,8 +1,14 @@
 services:
+    # resolvers
     app.feature.foo_resolver:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\FooFeatureResolver
         tags:
             - { name: feature.resolver, config-key: foo }
+    app.feature.bar_resolver:
+        class: Yannickl88\FeaturesBundle\Functional\Fixtures\BarFeatureResolver
+        tags:
+            - { name: feature.resolver, config-key: bar }
+    # test classes to inject the features into
     app.test:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
         arguments:
@@ -25,7 +31,13 @@ framework:
 
 features:
     tags:
-        test:
+        test: # not true
             foo: ~
-        test2:
+        test2: # true
             foo: [42]
+        test3: # not true
+            foo: [42]
+            bar: [42]
+        test4: # true
+            foo: [42]
+            bar: [13]
