@@ -1,8 +1,24 @@
 services:
-    app.feature.foo_provider:
-        class: Yannickl88\FeaturesBundle\Functional\Fixtures\Model\FooProvider
+    app.feature.foo_resolver:
+        class: Yannickl88\FeaturesBundle\Functional\Fixtures\FooFeatureResolver
         tags:
-            - { name: feature.provider, config-key: foo }
+            - { name: feature.resolver, config-key: foo }
+    app.test:
+        class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
+        arguments:
+            - "@features.tag"
+        tags:
+            - { name: feature.tag, tag: test }
+    app.test2:
+        class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
+        arguments:
+            - "@features.tag"
+        tags:
+            - { name: feature.tag, tag: test2 }
+    app.test_no_tag:
+        class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
+        arguments:
+            - "@features.tag"
 
 framework:
     secret: test

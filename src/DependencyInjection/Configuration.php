@@ -4,6 +4,16 @@ namespace Yannickl88\FeaturesBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
+/**
+ * Features configuration. Basic example of the config is:
+ *
+ * features:
+ *     tags:
+ *         my_feature:
+ *             my_resolver: ~
+ *
+ * @author Yannick de Lange <yannick.l.88@gmail.com>
+ */
 class Configuration implements ConfigurationInterface
 {
     /**

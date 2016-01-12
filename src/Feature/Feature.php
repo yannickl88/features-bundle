@@ -2,37 +2,16 @@
 namespace Yannickl88\FeaturesBundle\Feature;
 
 /**
- * Feature tag. Use the ::isActive() method to check if the feature is enabled
- * for this request.
+ * Implementations represent a feature that can be active or not.
+ *
+ * @author Yannick de Lange <yannick.l.88@gmail.com>
  */
-final class Feature implements FeatureInterface
+interface Feature
 {
     /**
-     * @var string
+     * Check if the feature is active for the current request.
+     *
+     * @return bool
      */
-    private $name;
-
-    /**
-     * @param string $name
-     */
-    public function __construct($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isActive()
-    {
-        return true;
-    }
+    public function isActive();
 }

@@ -1,0 +1,9 @@
+services:
+    features.factory:
+        class: Yannickl88\FeaturesBundle\Feature\FeatureFactory
+        arguments:
+            - [] # replaced by extension
+
+    features.tag:
+        class: Yannickl88\FeaturesBundle\Feature\DeprecatedFeature
+

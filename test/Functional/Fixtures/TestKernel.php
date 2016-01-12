@@ -5,9 +5,6 @@ use Symfony\Component\HttpKernel\Kernel;
 
 class TestKernel extends Kernel
 {
-    /**
-     * {@inheritdoc}
-     */
     public function registerBundles()
     {
         return array(
@@ -16,16 +13,8 @@ class TestKernel extends Kernel
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__ . '/config/config.yml');
-    }
-
-    public function getCacheDir()
-    {
-        return $this->rootDir.'/cache/' . md5(__CLASS__) . '/' . $this->environment;
     }
 }
