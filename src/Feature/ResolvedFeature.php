@@ -4,6 +4,8 @@ namespace Yannickl88\FeaturesBundle\Feature;
 /**
  * Resolved feature. Use the self::isActive() method to check if the feature is
  * enabled for this request.
+ *
+ * @author Yannick de Lange <yannick.l.88@gmail.com>
  */
 final class ResolvedFeature implements Feature
 {

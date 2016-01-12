@@ -4,6 +4,8 @@ namespace Yannickl88\FeaturesBundle\Feature;
 /**
  * Factory for creating features. This will resolve if a feature is active on
  * creation.
+ *
+ * @author Yannick de Lange <yannick.l.88@gmail.com>
  */
 class FeatureFactory
 {
