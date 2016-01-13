@@ -111,7 +111,7 @@ It is possible to configure multiple resolvers per feature tag. You can simply k
 features:
     tags:
         beta:
-            request: ["new"]
+            request: ["beta", "on"]
             other: ~
             more: ["foo"]
 ```
