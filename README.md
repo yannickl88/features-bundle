@@ -1,5 +1,5 @@
 # features-bundle
-This Symfony bundle provides a way of managing features within a project. A common use-case is to have a certain feature only active under certain condition. Examples would be that you want to activate a feature when the use has a certain role, or when you are not in a product environment (think of testing).
+This Symfony bundle provides a way of managing features within a project. A common use-case is to have a certain feature only active under certain condition. Examples would be that you want to activate a feature when the use has a certain role, or when you are not in a production environment (think of testing).
 
 With this bundle you can configure features to be active or inactive. Using resolvers you decide when a feature is active or not.
 
