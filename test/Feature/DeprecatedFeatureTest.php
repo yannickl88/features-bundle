@@ -23,7 +23,7 @@ class DeprecatedFeatureTest extends \PHPUnit_Framework_TestCase
 
     public function testIsActiveNotice()
     {
-        set_error_handler(function ($errno , $errstr) {
+        set_error_handler(function ($errno, $errstr) {
             self::assertEquals('Feature with no tag was used, please remove or configure the tag.', $errstr);
         });
 

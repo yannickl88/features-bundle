@@ -3,9 +3,9 @@ namespace Yannickl88\FeaturesBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Yannickl88\FeaturesBundle\Feature\FeatureFactory;
 use Yannickl88\FeaturesBundle\Feature\FeatureResolverInterface;
-use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * @covers Yannickl88\FeaturesBundle\DependencyInjection\Compiler\FeaturesCompilerPass
