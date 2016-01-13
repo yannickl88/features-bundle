@@ -3,25 +3,25 @@ services:
     app.feature.foo_resolver:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\FooFeatureResolver
         tags:
-            - { name: feature.resolver, config-key: foo }
-            - { name: feature.resolver, config-key: fooz }
+            - { name: features.resolver, config-key: foo }
+            - { name: features.resolver, config-key: fooz }
     app.feature.bar_resolver:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\BarFeatureResolver
         tags:
-            - { name: feature.resolver, config-key: bar }
+            - { name: features.resolver, config-key: bar }
     # test classes to inject the features into
     app.test:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
         arguments:
             - "@features.tag"
         tags:
-            - { name: feature.tag, tag: test }
+            - { name: features.tag, tag: test }
     app.test2:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
         arguments:
             - "@features.tag"
         tags:
-            - { name: feature.tag, tag: test2 }
+            - { name: features.tag, tag: test2 }
     app.test_no_tag:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
         arguments:

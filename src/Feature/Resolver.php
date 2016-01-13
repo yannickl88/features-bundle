@@ -7,7 +7,7 @@ namespace Yannickl88\FeaturesBundle\Feature;
  *
  * @author Yannick de Lange <yannick.l.88@gmail.com>
  */
-final class Resolver
+class Resolver
 {
     /**
      * @var FeatureResolverInterface[]

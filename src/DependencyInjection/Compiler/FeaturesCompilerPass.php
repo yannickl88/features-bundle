@@ -39,7 +39,7 @@ final class FeaturesCompilerPass implements CompilerPassInterface
      */
     private function configureResolvers(ContainerBuilder $container)
     {
-        $services  = $container->findTaggedServiceIds('feature.resolver');
+        $services  = $container->findTaggedServiceIds('features.resolver');
         $resolvers = [];
 
         foreach ($services as $id => $options) {
@@ -104,7 +104,7 @@ final class FeaturesCompilerPass implements CompilerPassInterface
      */
     private function replaceTaggedFeatures(ContainerBuilder $container, array $tags)
     {
-        $services = $container->findTaggedServiceIds('feature.tag');
+        $services = $container->findTaggedServiceIds('features.tag');
 
         foreach ($services as $id => $options) {
             if (!isset($options[0]['tag'])) {
