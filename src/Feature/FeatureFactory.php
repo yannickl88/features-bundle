@@ -33,6 +33,7 @@ final class FeatureFactory
      * ]
      *
      * @param string $feature_name
+     * @param array  $options
      * @return Feature
      */
     public function createFeature($feature_name, array $options = [])
