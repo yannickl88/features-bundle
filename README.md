@@ -29,7 +29,7 @@ services:
         arguments:
             - "@request_stack"
         tags:
-            # config-key is set to request, this is what we used as resolver for the beta feature tag
+            # config-key is set to resolve the configured key: "request" with the options "beta" and "on"
             - { name: features.resolver, config-key: request }
 ```
 Here we create the `app.features.request_resolver` service and tag it with `features.resolver`. This will then be picked up by the bundle and be registered so we can use it in our feature tags. What we also provide is a `config-key` value. This is the key that we defined in the `config.yml` under the `beta` tag. This will glue your config to your resolver.
