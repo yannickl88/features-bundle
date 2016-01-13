@@ -7,7 +7,7 @@ namespace Yannickl88\FeaturesBundle\Feature;
  *
  * @author Yannick de Lange <yannick.l.88@gmail.com>
  */
-final class ResolvedFeature implements Feature
+final class ResolvableFeature implements Feature
 {
     /**
      * @var string
@@ -15,18 +15,18 @@ final class ResolvedFeature implements Feature
     private $name;
 
     /**
-     * @var bool
+     * @var Resolver
      */
-    private $active;
+    private $resolver;
 
     /**
      * @param string $name
      * @param bool   $active
      */
-    public function __construct($name, $active)
+    public function __construct($name, Resolver $resolver)
     {
-        $this->name   = $name;
-        $this->active = $active;
+        $this->name     = $name;
+        $this->resolver = $resolver;
     }
 
     /**
@@ -44,6 +44,6 @@ final class ResolvedFeature implements Feature
      */
     public function isActive()
     {
-        return $this->active;
+        return $this->resolver->resolve();
     }
 }

@@ -7,7 +7,7 @@ namespace Yannickl88\FeaturesBundle\Feature;
  *
  * @author Yannick de Lange <yannick.l.88@gmail.com>
  */
-class FeatureFactory
+final class FeatureFactory
 {
     /**
      * @var FeatureResolverInterface[]
@@ -32,27 +32,24 @@ class FeatureFactory
      *     // etc.
      * ]
      *
-     * @param string $name
+     * @param string $feature_name
      * @return Feature
      */
-    public function createFeature($name, array $options = [])
+    public function createFeature($feature_name, array $options = [])
     {
-        $active = true;
+        $resolver = new Resolver();
 
-        foreach ($options as $resolver => $resolver_options) {
-            if (!isset($this->resolvers[$resolver])) {
+        foreach ($options as $name => $resolver_options) {
+            if (!isset($this->resolvers[$name])) {
                 throw new \RuntimeException(sprintf(
                     'Resolver "%s" was not found, did you forget to tag it with "features.resolver".',
-                    $resolver
+                    $name
                 ));
             }
 
-            if (false === ($active = $active && $this->resolvers[$resolver]->isActive($resolver_options))) {
-                // No need to keep resolving when active becomes false.
-                break;
-            }
+            $resolver->addResolver($this->resolvers[$name], $resolver_options);
         }
 
-        return new ResolvedFeature($name, $active);
+        return new ResolvableFeature($feature_name, $resolver);
     }
 }

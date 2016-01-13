@@ -14,7 +14,7 @@ use Yannickl88\FeaturesBundle\Feature\Feature;
  *
  * @author Yannick de Lange <yannick.l.88@gmail.com>
  */
-class FeaturesCompilerPass implements CompilerPassInterface
+final class FeaturesCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
@@ -43,15 +43,17 @@ class FeaturesCompilerPass implements CompilerPassInterface
         $resolvers = [];
 
         foreach ($services as $id => $options) {
-            if (!isset($options[0]['config-key'])) {
-                throw new InvalidArgumentException(sprintf(
-                    'The value for "config-key" is missing in the tag "features.tag" for service "%s".',
-                    $id
-                ));
-            }
-            $config_key = $options[0]['config-key'];
+            foreach ($options as $tag_options) {
+                if (!isset($tag_options['config-key'])) {
+                    throw new InvalidArgumentException(sprintf(
+                        'The value for "config-key" is missing in the tag "features.tag" for service "%s".',
+                        $id
+                    ));
+                }
+                $config_key = $tag_options['config-key'];
 
-            $resolvers[$config_key] = new Reference($id);
+                $resolvers[$config_key] = new Reference($id);
+            }
         }
         $container
             ->getDefinition('features.factory')
@@ -108,6 +110,12 @@ class FeaturesCompilerPass implements CompilerPassInterface
             if (!isset($options[0]['tag'])) {
                 throw new InvalidArgumentException(sprintf(
                     'The value for "tag" is missing in the tag "features.tag" for service "%s".',
+                    $id
+                ));
+            }
+            if (count($options) != 1) {
+                throw new InvalidArgumentException(sprintf(
+                    'Multiple "features.tag" tags found for service "%s", only one is allowed per service.',
                     $id
                 ));
             }

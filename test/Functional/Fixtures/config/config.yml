@@ -4,6 +4,7 @@ services:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\FooFeatureResolver
         tags:
             - { name: feature.resolver, config-key: foo }
+            - { name: feature.resolver, config-key: fooz }
     app.feature.bar_resolver:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\BarFeatureResolver
         tags:
