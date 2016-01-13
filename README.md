@@ -10,18 +10,18 @@ Requirements:
 Recommended installation is via composer: `composer require yannickl88/features-bundle`.
 
 # Usage
-All configuration is done using services and your application config. For the following example we want to enable a feature when the GET parameter `feature` is set to `new`.
+All configuration is done using services and your application config. For the following example we want to enable a feature when the GET parameter `beta` is set to `on`.
 
 So configuring your feature in the `config.yml` of your application.
 
 ```yml
 features:
     tags:
-        new_feature:
-            request: ["new"]
+        beta: # our feature tag
+            request: ["beta", "on"] # 'app.features.request_resolver' will resolve this key
 ```
 
-Here we define a feature tag `new_feature` which will be resolved with the `request` resolver. Now we need to configure the `request` resolver. We do this with the following service definition:
+Here we define a feature tag `beta` which will be resolved with the `request` resolver. Now we need to configure the `request` resolver. We do this with the following service definition:
 ```yml
 services:
     app.features.request_resolver:
@@ -29,9 +29,10 @@ services:
         arguments:
             - "@request_stack"
         tags:
+            # config-key is set to request, this is what we used as resolver for the beta feature tag
             - { name: features.resolver, config-key: request }
 ```
-Here we create the `app.features.request_resolver` service and tag it with `features.resolver`. This will then be picked up by the bundle and be registered so we can use it in our feature tags. What we also provide is a `config-key` value. This is the key that we defined in the `config.yml` under the `new_feature` tag. This will glue your config to your resolver.
+Here we create the `app.features.request_resolver` service and tag it with `features.resolver`. This will then be picked up by the bundle and be registered so we can use it in our feature tags. What we also provide is a `config-key` value. This is the key that we defined in the `config.yml` under the `beta` tag. This will glue your config to your resolver.
 
 Final thing to do is implement the `RequestResolver`:
 ```php
@@ -58,8 +59,11 @@ class RequestResolver implements FeatureResolverInterface
         if (null === ($request = $this->request_stack->getMasterRequest())) {
             return false;
         }
-        // Feature is active when the first item in the options ('new') matches the feature get param.
-        return $request->get('feature') !== $options[0];
+
+        // $options contains ["beta", "on"] for the 'beta' feature tag
+        list($key, $expected_value) = $options;
+
+        return $request->get($key) === $expected_value;
     }
 }
 ```
@@ -71,7 +75,7 @@ services:
        arguments:
            - "@features.tag"
        tags:
-           - { name: features.tag, tag: new_feature }
+           - { name: features.tag, tag: beta }
 ```
 Notice here that we do not inject the feature directly, but tag the service. The bundle will replace the feature for you. So you can use it as follows in your code:
 ```php
@@ -91,11 +95,13 @@ class Service
     public function someMethod()
     {
         if ($this->feature->isActive()) {
-            // do some extra logic when this feature is active
+            // do some extra beta logic when this feature is active
         }
     }
 }
 ```
+So if I now add `?beta=on` to my URL. The feature will trigger.
+
 
 __Note:__ If you remove the tag, it will inject a deprecated feature. This deprecated feature will trigger a warning when the `isActive` is used so you will quickly see where unused feature are used.
 
@@ -104,7 +110,7 @@ It is possible to configure multiple resolvers per feature tag. You can simply k
 ```yml
 features:
     tags:
-        new_feature:
+        beta:
             request: ["new"]
             other: ~
             more: ["foo"]
