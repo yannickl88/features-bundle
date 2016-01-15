@@ -102,8 +102,16 @@ class Service
 ```
 So if I now add `?beta=on` to my URL. The feature will trigger.
 
-
 __Note:__ If you remove the tag, it will inject a deprecated feature. This deprecated feature will trigger a warning when the `isActive` is used so you will quickly see where unused feature are used.
+
+# Twig
+If it also possible to check a feature in your twig templates. Simply use the `feature` function to check if a feature is enabled.
+
+```twig 
+{% if feature("beta") %}
+    {# do some extra beta logic when this feature is active #}
+{% endif %}
+```
 
 # Advanced Topics
 It is possible to configure multiple resolvers per feature tag. You can simply keep adding more in the `config.yml`. So in the example we can extend it to:
