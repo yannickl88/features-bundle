@@ -31,7 +31,7 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
         $factory->setArguments([[]]);
 
         $feature_container = new Definition(FeatureContainer::class);
-        $feature_container->setArguments([[]]);
+        $feature_container->setArguments([new Reference('service_container'), []]);
 
         $target = new Definition(\stdClass::class);
         $target->addArgument('foobar');
@@ -124,7 +124,7 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
         $factory->setArguments([[]]);
 
         $feature_container = new Definition(FeatureContainer::class);
-        $feature_container->setArguments([[]]);
+        $feature_container->setArguments([new Reference('service_container'), []]);
 
         $target = new Definition(\stdClass::class);
         $target->addArgument('foobar');
@@ -159,7 +159,7 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
         $factory->setArguments([[]]);
 
         $feature_container = new Definition(FeatureContainer::class);
-        $feature_container->setArguments([[]]);
+        $feature_container->setArguments([new Reference('service_container'), []]);
 
         $target = new Definition(\stdClass::class);
         $target->addArgument('foobar');
@@ -195,7 +195,7 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
         $factory->setArguments([[]]);
 
         $feature_container = new Definition(FeatureContainer::class);
-        $feature_container->setArguments([[]]);
+        $feature_container->setArguments([new Reference('service_container'), []]);
 
         $target = new Definition(\stdClass::class);
         $target->addArgument('foobar');

@@ -1,6 +1,7 @@
 <?php
 namespace Yannickl88\FeaturesBundle\Feature;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Yannickl88\FeaturesBundle\Feature\Exception\FeatureNotFoundException;
 
 /**
@@ -11,16 +12,23 @@ use Yannickl88\FeaturesBundle\Feature\Exception\FeatureNotFoundException;
 final class FeatureContainer
 {
     /**
-     * @var Feature[]
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @var string[]
      */
     private $features;
 
     /**
-     * @param Feature[] $resolvers
+     * @param ContainerInterface $container
+     * @param string[]           $features
      */
-    public function __construct(array $features)
+    public function __construct(ContainerInterface $container, array $features)
     {
-        $this->features = $features;
+        $this->container = $container;
+        $this->features  = $features;
     }
 
     /**
@@ -35,6 +43,6 @@ final class FeatureContainer
             throw new FeatureNotFoundException($tag);
         }
 
-        return $this->features[$tag];
+        return $this->container->get($this->features[$tag]);
     }
 }

@@ -1,11 +1,14 @@
 <?php
 namespace Yannickl88\FeaturesBundle\Feature;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
  * @covers Yannickl88\FeaturesBundle\Feature\FeatureContainer
  */
 class FeatureContainerTest extends \PHPUnit_Framework_TestCase
 {
+    private $container;
     private $feature;
     private $features;
 
@@ -16,19 +19,23 @@ class FeatureContainerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->feature = $this->prophesize(Feature::class);
+        $this->container = $this->prophesize(ContainerInterface::class);
+        $this->feature   = $this->prophesize(Feature::class);
 
         $this->features = [
-            'test' => $this->feature->reveal()
+            'test' => 'features.tag.test'
         ];
 
         $this->feature_container = new FeatureContainer(
+            $this->container->reveal(),
             $this->features
         );
     }
 
     public function testGet()
     {
+        $this->container->get('features.tag.test')->willReturn($this->feature);
+
         self::assertSame($this->feature->reveal(), $this->feature_container->get('test'));
     }
 

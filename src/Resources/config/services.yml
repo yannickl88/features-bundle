@@ -7,6 +7,7 @@ services:
     features.container:
         class: Yannickl88\FeaturesBundle\Feature\FeatureContainer
         arguments:
+            - "@service_container"
             - [] # replaced by extension
 
     features.tag:

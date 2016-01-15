@@ -92,10 +92,10 @@ final class FeaturesCompilerPass implements CompilerPassInterface
 
             $container->setDefinition('features.tag.' . $tag, $definition);
 
-            $all[$tag] = new Reference('features.tag.' . $tag);
+            $all[$tag] = 'features.tag.' . $tag;
         }
 
-        $container->getDefinition('features.container')->replaceArgument(0, $all);
+        $container->getDefinition('features.container')->replaceArgument(1, $all);
 
         return $tags;
     }
