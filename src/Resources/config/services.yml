@@ -4,6 +4,18 @@ services:
         arguments:
             - [] # replaced by extension
 
+    features.container:
+        class: Yannickl88\FeaturesBundle\Feature\FeatureContainer
+        arguments:
+            - [] # replaced by extension
+
     features.tag:
         class: Yannickl88\FeaturesBundle\Feature\DeprecatedFeature
 
+    features.twig_extension:
+        class: Yannickl88\FeaturesBundle\Twig\FeaturesExtension
+        public: false
+        arguments:
+            - "@features.container"
+        tags:
+            - { name: twig.extension }

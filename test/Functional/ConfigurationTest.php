@@ -35,4 +35,18 @@ class ConfigurationTest extends KernelTestCase
         self::assertEquals($feature_test2, $container->get('app.test2')->feature);
         self::assertEquals(new DeprecatedFeature(), $container->get('app.test_no_tag')->feature);
     }
+
+    public function testTwigFeature()
+    {
+        $container = static::$kernel->getContainer();
+
+        self::assertEquals(
+            "feature is off",
+            $container->get("twig")->render('/test.html.twig', ['feature_name' => 'test'])
+        );
+        self::assertEquals(
+            "feature is on",
+            $container->get("twig")->render('/test.html.twig', ['feature_name' => 'test2'])
+        );
+    }
 }

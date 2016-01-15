@@ -72,6 +72,7 @@ final class FeaturesCompilerPass implements CompilerPassInterface
     private function configureTags(ContainerBuilder $container, array $configured_resolvers)
     {
         $tags = $container->getParameter('features.tags');
+        $all  = [];
 
         foreach ($tags as $tag) {
             $options = $container->getParameter('features.tags.' . $tag . '.options');
@@ -90,7 +91,11 @@ final class FeaturesCompilerPass implements CompilerPassInterface
             $definition->setArguments([$tag, $options]);
 
             $container->setDefinition('features.tag.' . $tag, $definition);
+
+            $all[$tag] = new Reference('features.tag.' . $tag);
         }
+
+        $container->getDefinition('features.container')->replaceArgument(0, $all);
 
         return $tags;
     }

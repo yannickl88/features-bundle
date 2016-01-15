@@ -30,6 +30,10 @@ services:
 framework:
     secret: test
 
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+
 features:
     tags:
         test: # not true

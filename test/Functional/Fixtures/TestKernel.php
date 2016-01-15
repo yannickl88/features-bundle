@@ -9,6 +9,7 @@ class TestKernel extends Kernel
     {
         return array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Yannickl88\FeaturesBundle\FeaturesBundle(),
         );
     }
