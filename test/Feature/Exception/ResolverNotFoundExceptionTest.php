@@ -11,7 +11,7 @@ class ResolverNotFoundExceptionTest extends \PHPUnit_Framework_TestCase
         $e = new ResolverNotFoundException('foo');
 
         self::assertEquals(
-            'Resolver "foo" was not found, did you forget to tag it with "features.resolver".',
+            'Resolver "foo" was not found, did you forget to tag it with "features.resolver"?',
             $e->getMessage()
         );
     }
