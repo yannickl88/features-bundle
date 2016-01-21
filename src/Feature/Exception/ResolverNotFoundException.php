@@ -13,7 +13,7 @@ class ResolverNotFoundException extends \RuntimeException
     public function __construct($resolver_name, $previous = null)
     {
         parent::__construct(sprintf(
-            'Resolver "%s" was not found, did you forget to tag it with "features.resolver".',
+            'Resolver "%s" was not found, did you forget to tag it with "features.resolver"?',
             $resolver_name
         ), null, $previous);
     }
