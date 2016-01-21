@@ -3,13 +3,14 @@ namespace Yannickl88\FeaturesBundle\Feature;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Yannickl88\FeaturesBundle\Feature\Exception\FeatureNotFoundException;
+use Yannickl88\FeaturesBundle\Feature\Exception\ResolverNotFoundException;
 
 /**
  * A container that holds all the registred features.
  *
  * @author Yannick de Lange <yannick.l.88@gmail.com>
  */
-final class FeatureContainer
+final class FeatureContainer implements FeatureContainerInterface
 {
     /**
      * @var ContainerInterface
@@ -22,20 +23,24 @@ final class FeatureContainer
     private $features;
 
     /**
-     * @param ContainerInterface $container
-     * @param string[]           $features
+     * @var FeatureResolverInterface[]
      */
-    public function __construct(ContainerInterface $container, array $features)
+    private $resolvers;
+
+    /**
+     * @param ContainerInterface         $container
+     * @param string[]                   $features
+     * @param FeatureResolverInterface[] $resolvers
+     */
+    public function __construct(ContainerInterface $container, array $features, array $resolvers)
     {
         $this->container = $container;
         $this->features  = $features;
+        $this->resolvers = $resolvers;
     }
 
     /**
-     * Return a features by give name. If the feature was not found, an exception is thrown.
-     *
-     * @return Feature
-     * @throws FeatureNotFoundException when feature was not found
+     * {@inheritdoc}
      */
     public function get($tag)
     {
@@ -44,5 +49,21 @@ final class FeatureContainer
         }
 
         return $this->container->get($this->features[$tag]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getResolver($name)
+    {
+        if ($name == 'chain') { // special resolver
+            return new ChainFeatureResolver($this);
+        }
+
+        if (!isset($this->resolvers[$name])) {
+            throw new ResolverNotFoundException($name);
+        }
+
+        return $this->resolvers[$name];
     }
 }

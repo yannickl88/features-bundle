@@ -1,38 +1,40 @@
 <?php
 namespace Yannickl88\FeaturesBundle\Feature;
 
+use Yannickl88\FeaturesBundle\Feature\FeatureContainerInterface;
+
 /**
- * @covers Yannickl88\FeaturesBundle\Feature\FeatureFactory
+ * @covers Yannickl88\FeaturesBundle\Feature\ChainFeatureResolver
  */
-class FeatureFactoryTest extends \PHPUnit_Framework_TestCase
+class ChainFeatureResolverTest extends \PHPUnit_Framework_TestCase
 {
     private $feature_container;
 
     /**
-     * @var FeatureFactory
+     * @var ChainFeatureResolver
      */
-    private $feature_factory;
+    private $chain_feature_resolver;
 
     protected function setUp()
     {
         $this->feature_container = $this->prophesize(FeatureContainerInterface::class);
 
-        $this->feature_factory = new FeatureFactory(
+        $this->chain_feature_resolver = new ChainFeatureResolver(
             $this->feature_container->reveal()
         );
     }
 
-    public function testCreateFeature()
+    public function testIsActive()
     {
         $resolver1 = $this->prophesize(FeatureResolverInterface::class);
         $resolver2 = $this->prophesize(FeatureResolverInterface::class);
 
+        $resolver1->isActive([])->willReturn(true);
+        $resolver2->isActive([42])->willReturn(false);
+
         $this->feature_container->getResolver('foo')->willReturn($resolver1);
         $this->feature_container->getResolver('bar')->willReturn($resolver2);
 
-        $feature = $this->feature_factory->createFeature('foobar', ['foo' => [], 'bar' => []]);
-
-        self::assertInstanceOf(ResolvableFeature::class, $feature);
-        self::assertEquals('foobar', $feature->getName());
+        self::assertTrue($this->chain_feature_resolver->isActive(['foo' => [], 'bar' => [42]]));
     }
 }

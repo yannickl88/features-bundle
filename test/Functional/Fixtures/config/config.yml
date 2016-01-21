@@ -46,3 +46,15 @@ features:
         test4: # true
             foo: [42]
             bar: [13]
+        test5: # true
+            chain:
+                foo: [42]
+                bar: [13]
+        test6: # true
+            chain:
+                foo: [42]
+                bar: [42]
+        test7: # false
+            chain:
+                foo: [13]
+                bar: [42]

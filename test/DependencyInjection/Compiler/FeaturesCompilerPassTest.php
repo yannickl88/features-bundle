@@ -28,10 +28,10 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
         $container = new ContainerBuilder();
 
         $factory = new Definition(FeatureFactory::class);
-        $factory->setArguments([[]]);
+        $factory->setArguments(['']);
 
         $feature_container = new Definition(FeatureContainer::class);
-        $feature_container->setArguments([new Reference('service_container'), []]);
+        $feature_container->setArguments([new Reference('service_container'), [], []]);
 
         $target = new Definition(\stdClass::class);
         $target->addArgument('foobar');
@@ -73,7 +73,7 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
         $container = new ContainerBuilder();
 
         $factory = new Definition(FeatureFactory::class);
-        $factory->setArguments([[]]);
+        $factory->setArguments(['']);
 
         $resolver = new Definition(FeatureResolverInterface::class);
         $resolver->addTag('features.resolver', []);
@@ -89,15 +89,46 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Unknown resolver(s) "missing" configured for feature tag "foo".
+     * @expectedExceptionMessage The config-key "resolver" is already configured by resolver "test.resolver1".
      *
      */
-    public function testProcessMissingProvider()
+    public function testProcessDuplicateConfigKey()
     {
         $container = new ContainerBuilder();
 
         $factory = new Definition(FeatureFactory::class);
-        $factory->setArguments([[]]);
+        $factory->setArguments(['']);
+
+        $resolver1 = new Definition(FeatureResolverInterface::class);
+        $resolver1->addTag('features.resolver', ['config-key' => 'resolver']);
+
+        $resolver2 = new Definition(FeatureResolverInterface::class);
+        $resolver2->addTag('features.resolver', ['config-key' => 'resolver']);
+
+        $container->setDefinition('test.resolver1', $resolver1);
+        $container->setDefinition('test.resolver2', $resolver1);
+
+        $container->setDefinition('features.factory', $factory);
+        $container->setParameter('features.tags', ['foo']);
+        $container->setParameter('features.tags.foo.options', ['resolver' => []]);
+
+        $this->features_compiler_pass->process($container);
+    }
+
+    /**
+     * @expectedException Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     * @expectedExceptionMessage Unknown resolver(s) "missing" configured for feature tag "foo".
+     *
+     */
+    public function testProcessMissingResolver()
+    {
+        $container = new ContainerBuilder();
+
+        $factory = new Definition(FeatureFactory::class);
+        $factory->setArguments(['']);
+
+        $feature_container = new Definition(FeatureContainer::class);
+        $feature_container->setArguments([new Reference('service_container'), [], []]);
 
         $resolver = new Definition(FeatureResolverInterface::class);
         $resolver->addTag('features.resolver', ['config-key' => 'resolver']);
@@ -105,6 +136,7 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
         $container->setDefinition('test.resolver', $resolver);
 
         $container->setDefinition('features.factory', $factory);
+        $container->setDefinition('features.container', $feature_container);
         $container->setParameter('features.tags', ['foo']);
         $container->setParameter('features.tags.foo.options', ['missing' => []]);
 
@@ -121,10 +153,10 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
         $container = new ContainerBuilder();
 
         $factory = new Definition(FeatureFactory::class);
-        $factory->setArguments([[]]);
+        $factory->setArguments(['']);
 
         $feature_container = new Definition(FeatureContainer::class);
-        $feature_container->setArguments([new Reference('service_container'), []]);
+        $feature_container->setArguments([new Reference('service_container'), [], []]);
 
         $target = new Definition(\stdClass::class);
         $target->addArgument('foobar');
@@ -156,10 +188,10 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
         $container = new ContainerBuilder();
 
         $factory = new Definition(FeatureFactory::class);
-        $factory->setArguments([[]]);
+        $factory->setArguments(['']);
 
         $feature_container = new Definition(FeatureContainer::class);
-        $feature_container->setArguments([new Reference('service_container'), []]);
+        $feature_container->setArguments([new Reference('service_container'), [], []]);
 
         $target = new Definition(\stdClass::class);
         $target->addArgument('foobar');
@@ -192,10 +224,10 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
         $container = new ContainerBuilder();
 
         $factory = new Definition(FeatureFactory::class);
-        $factory->setArguments([[]]);
+        $factory->setArguments(['']);
 
         $feature_container = new Definition(FeatureContainer::class);
-        $feature_container->setArguments([new Reference('service_container'), []]);
+        $feature_container->setArguments([new Reference('service_container'), [], []]);
 
         $target = new Definition(\stdClass::class);
         $target->addArgument('foobar');

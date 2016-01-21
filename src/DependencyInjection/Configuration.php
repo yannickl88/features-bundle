@@ -30,7 +30,7 @@ final class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->prototype('array')
-                            ->prototype('scalar')->end()
+                            ->prototype('variable')->end()
                         ->end()
                     ->end()
                 ->end()

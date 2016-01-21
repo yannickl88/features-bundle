@@ -40,7 +40,7 @@ final class FeaturesCompilerPass implements CompilerPassInterface
     private function configureResolvers(ContainerBuilder $container)
     {
         $services  = $container->findTaggedServiceIds('features.resolver');
-        $resolvers = [];
+        $resolvers = ['chain' => true];
 
         foreach ($services as $id => $options) {
             foreach ($options as $tag_options) {
@@ -52,12 +52,19 @@ final class FeaturesCompilerPass implements CompilerPassInterface
                 }
                 $config_key = $tag_options['config-key'];
 
+                if (isset($resolvers[$config_key])) {
+                    throw new InvalidArgumentException(sprintf(
+                        'The config-key "%s" is already configured by resolver "%s".',
+                        $config_key,
+                        (string) $resolvers[$config_key]
+                    ));
+                }
                 $resolvers[$config_key] = new Reference($id);
             }
         }
         $container
-            ->getDefinition('features.factory')
-            ->replaceArgument(0, $resolvers);
+            ->getDefinition('features.container')
+            ->replaceArgument(2, $resolvers);
 
         return $resolvers;
     }
@@ -95,7 +102,9 @@ final class FeaturesCompilerPass implements CompilerPassInterface
             $all[$tag] = 'features.tag.' . $tag;
         }
 
-        $container->getDefinition('features.container')->replaceArgument(1, $all);
+        $container
+            ->getDefinition('features.container')
+            ->replaceArgument(1, $all);
 
         return $tags;
     }

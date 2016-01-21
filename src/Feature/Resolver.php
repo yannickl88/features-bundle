@@ -9,6 +9,9 @@ namespace Yannickl88\FeaturesBundle\Feature;
  */
 class Resolver
 {
+    const STRATEGY_AFFIRMATIVE = 'affirmative';
+    const STRATEGY_UNANIMOUS   = 'unanimous';
+
     /**
      * @var FeatureResolverInterface[]
      */
@@ -34,9 +37,46 @@ class Resolver
     /**
      * Resolve the final value.
      *
+     * @param string $strategy
+     * @return bool
+     * @throws \InvalidArgumentException when strategy is unknown.
+     */
+    public function resolve($strategy = self::STRATEGY_UNANIMOUS)
+    {
+        switch ($strategy) {
+            case self::STRATEGY_AFFIRMATIVE:
+                return $this->resolveAffirmative();
+            case self::STRATEGY_UNANIMOUS:
+                return $this->resolveUnanimous();
+        }
+
+        throw new \InvalidArgumentException(sprintf('The strategy "%s" is not supported.', $strategy));
+    }
+
+    /**
+     * Resolve the feature where at least one voter needs to resolve true for
+     * the feature to be active.
+     *
      * @return bool
      */
-    public function resolve()
+    private function resolveAffirmative()
+    {
+        foreach ($this->resolvers as $key => $resolver) {
+            if ($resolver->isActive($this->resolver_options[$key])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Resolve the feature where all the voters needs to resolve true for
+     * the feature to be active.
+     *
+     * @return bool
+     */
+    private function resolveUnanimous()
     {
         foreach ($this->resolvers as $key => $resolver) {
             if (!$resolver->isActive($this->resolver_options[$key])) {
@@ -45,5 +85,6 @@ class Resolver
         }
 
         return true;
+
     }
 }

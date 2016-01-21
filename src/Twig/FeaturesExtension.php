@@ -1,7 +1,7 @@
 <?php
 namespace Yannickl88\FeaturesBundle\Twig;
 
-use Yannickl88\FeaturesBundle\Feature\FeatureContainer;
+use Yannickl88\FeaturesBundle\Feature\FeatureContainerInterface;
 
 /**
  * Twig extention for feature support in twig templates.
@@ -9,14 +9,14 @@ use Yannickl88\FeaturesBundle\Feature\FeatureContainer;
 class FeaturesExtension extends \Twig_Extension
 {
     /**
-     * @var FeatureContainer
+     * @var FeatureContainerInterface
      */
     private $container;
 
     /**
-     * @param FeatureContainer $container
+     * @param FeatureContainerInterface $container
      */
-    public function __construct(FeatureContainer $container)
+    public function __construct(FeatureContainerInterface $container)
     {
         $this->container = $container;
     }

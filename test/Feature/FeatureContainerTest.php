@@ -11,6 +11,8 @@ class FeatureContainerTest extends \PHPUnit_Framework_TestCase
     private $container;
     private $feature;
     private $features;
+    private $resolver;
+    private $resolvers;
 
     /**
      * @var FeatureContainer
@@ -21,14 +23,19 @@ class FeatureContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->container = $this->prophesize(ContainerInterface::class);
         $this->feature   = $this->prophesize(Feature::class);
+        $this->resolver  = $this->prophesize(FeatureResolverInterface::class);
 
-        $this->features = [
+        $this->features  = [
             'test' => 'features.tag.test'
+        ];
+        $this->resolvers = [
+            'test' => $this->resolver->reveal()
         ];
 
         $this->feature_container = new FeatureContainer(
             $this->container->reveal(),
-            $this->features
+            $this->features,
+            $this->resolvers
         );
     }
 
@@ -45,5 +52,23 @@ class FeatureContainerTest extends \PHPUnit_Framework_TestCase
     public function testGetUnknownFeature()
     {
         $this->feature_container->get('phpunit');
+    }
+
+    public function testGetResolver()
+    {
+        self::assertEquals($this->resolver->reveal(), $this->feature_container->getResolver('test'));
+    }
+
+    public function testGetResolverChain()
+    {
+        self::assertInstanceOf(ChainFeatureResolver::class, $this->feature_container->getResolver('chain'));
+    }
+
+    /**
+     * @expectedException Yannickl88\FeaturesBundle\Feature\Exception\ResolverNotFoundException
+     */
+    public function testCreateFeatureMissingResolver()
+    {
+        $this->feature_container->getResolver('foz');
     }
 }

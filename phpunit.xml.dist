@@ -10,8 +10,12 @@
         <server name="KERNEL_DIR" value="test/Functional/Fixtures"/>
     </php>
     <testsuites>
-        <testsuite name="features-bundle">
+        <testsuite name="unit">
             <directory>./test</directory>
+            <exclude>./test/Functional</exclude>
+        </testsuite>
+        <testsuite name="functional">
+            <directory>./test/Functional</directory>
         </testsuite>
     </testsuites>
     <filter>

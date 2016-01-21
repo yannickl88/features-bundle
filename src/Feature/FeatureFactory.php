@@ -10,16 +10,16 @@ namespace Yannickl88\FeaturesBundle\Feature;
 final class FeatureFactory
 {
     /**
-     * @var FeatureResolverInterface[]
+     * @var FeatureContainer
      */
-    private $resolvers;
+    private $feature_container;
 
     /**
-     * @param FeatureResolverInterface[] $resolvers
+     * @param FeatureContainerInterface $feature_container
      */
-    public function __construct(array $resolvers)
+    public function __construct(FeatureContainerInterface $feature_container)
     {
-        $this->resolvers = $resolvers;
+        $this->feature_container = $feature_container;
     }
 
     /**
@@ -41,14 +41,7 @@ final class FeatureFactory
         $resolver = new Resolver();
 
         foreach ($options as $name => $resolver_options) {
-            if (!isset($this->resolvers[$name])) {
-                throw new \RuntimeException(sprintf(
-                    'Resolver "%s" was not found, did you forget to tag it with "features.resolver".',
-                    $name
-                ));
-            }
-
-            $resolver->addResolver($this->resolvers[$name], $resolver_options);
+            $resolver->addResolver($this->feature_container->getResolver($name), $resolver_options);
         }
 
         return new ResolvableFeature($feature_name, $resolver);
