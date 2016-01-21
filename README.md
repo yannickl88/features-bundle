@@ -124,3 +124,15 @@ features:
             more: ["foo"]
 ```
 All resolvers must now resolve to `true` in order for this feature to be active. This is usefull if you want to check for multiple conditions.
+
+Furthermore, if you want to have multiple resolvers where only one needs to resolve to `true`, you can use the chain resolver. This can be done as follows:
+```yml
+features:
+    tags:
+        beta:
+            chain:
+                request: ["beta", "on"]
+                other: ~
+                more: ["foo"]
+```
+Notice here we have as resolver `chain` and under this we have your config as before.
