@@ -22,6 +22,12 @@ services:
             - "@features.tag"
         tags:
             - { name: features.tag, tag: test2 }
+    app.test3:
+        class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
+        arguments:
+            - "@features.tag"
+        tags:
+            - { name: features.tag, tag: test-with-strange_name }
     app.test_no_tag:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
         arguments:
@@ -58,3 +64,5 @@ features:
             chain:
                 foo: [13]
                 bar: [42]
+        test-with-strange_name: # true
+            foo: [42]

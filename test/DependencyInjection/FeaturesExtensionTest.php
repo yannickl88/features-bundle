@@ -37,8 +37,8 @@ class FeaturesExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->features_extension->load($configs, $container);
 
-        self::assertEquals(['foo', 'bar'], $container->getParameter('features.tags'));
-        self::assertEquals(['resolver' => []], $container->getParameter('features.tags.foo.options'));
-        self::assertEquals(['resolver' => ['henk']], $container->getParameter('features.tags.bar.options'));
+        self::assertEquals(['foo' => md5('foo'), 'bar' => md5('bar')], $container->getParameter('features.tags'));
+        self::assertEquals(['resolver' => []], $container->getParameter('features.tags.' . md5('foo') . '.options'));
+        self::assertEquals(['resolver' => ['henk']], $container->getParameter('features.tags.' . md5('bar') . '.options'));
     }
 }

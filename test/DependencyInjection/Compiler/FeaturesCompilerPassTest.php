@@ -51,7 +51,7 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
 
         $container->setDefinition('features.factory', $factory);
         $container->setDefinition('features.container', $feature_container);
-        $container->setParameter('features.tags', ['foo', 'bar']);
+        $container->setParameter('features.tags', ['foo' => 'foo', 'bar' => 'bar']);
         $container->setParameter('features.tags.foo.options', ['resolver1' => []]);
         $container->setParameter('features.tags.bar.options', ['resolver2' => []]);
 
@@ -64,7 +64,7 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      * @expectedExceptionMessage The value for "config-key" is missing in the tag "features.tag" for service "test.resolver".
      *
      */
@@ -81,14 +81,14 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
         $container->setDefinition('test.resolver', $resolver);
 
         $container->setDefinition('features.factory', $factory);
-        $container->setParameter('features.tags', ['foo']);
+        $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
         $this->features_compiler_pass->process($container);
     }
 
     /**
-     * @expectedException Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      * @expectedExceptionMessage The config-key "resolver" is already configured by resolver "test.resolver1".
      *
      */
@@ -109,14 +109,14 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
         $container->setDefinition('test.resolver2', $resolver1);
 
         $container->setDefinition('features.factory', $factory);
-        $container->setParameter('features.tags', ['foo']);
+        $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
         $this->features_compiler_pass->process($container);
     }
 
     /**
-     * @expectedException Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      * @expectedExceptionMessage Unknown resolver(s) "missing" configured for feature tag "foo".
      *
      */
@@ -137,14 +137,14 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
 
         $container->setDefinition('features.factory', $factory);
         $container->setDefinition('features.container', $feature_container);
-        $container->setParameter('features.tags', ['foo']);
+        $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['missing' => []]);
 
         $this->features_compiler_pass->process($container);
     }
 
     /**
-     * @expectedException Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      * @expectedExceptionMessage The value for "tag" is missing in the tag "features.tag" for service "test.service".
      *
      */
@@ -172,14 +172,14 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
 
         $container->setDefinition('features.factory', $factory);
         $container->setDefinition('features.container', $feature_container);
-        $container->setParameter('features.tags', ['foo']);
+        $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
         $this->features_compiler_pass->process($container);
     }
 
     /**
-     * @expectedException Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      * @expectedExceptionMessage Multiple "features.tag" tags found for service "test.service", only one is allowed per service.
      *
      */
@@ -208,14 +208,14 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
 
         $container->setDefinition('features.factory', $factory);
         $container->setDefinition('features.container', $feature_container);
-        $container->setParameter('features.tags', ['foo']);
+        $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
         $this->features_compiler_pass->process($container);
     }
 
     /**
-     * @expectedException Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      * @expectedExceptionMessage Unknown tag "bar" used in the "feature.tag" of service "test.service".
      *
      */
@@ -243,7 +243,7 @@ class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
 
         $container->setDefinition('features.factory', $factory);
         $container->setDefinition('features.container', $feature_container);
-        $container->setParameter('features.tags', ['foo']);
+        $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
         $this->features_compiler_pass->process($container);
