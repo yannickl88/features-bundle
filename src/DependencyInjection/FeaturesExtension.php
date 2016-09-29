@@ -2,7 +2,6 @@
 namespace Yannickl88\FeaturesBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
@@ -22,10 +21,11 @@ final class FeaturesExtension extends ConfigurableExtension
     {
         $tags = [];
         foreach ($config['tags'] as $name => $options) {
-            $escaped_name = Container::underscore($name);
+            $escaped_name = md5($name);
+
             $container->setParameter('features.tags.' . $escaped_name . '.options', $options);
 
-            $tags[] = $escaped_name;
+            $tags[$name] = $escaped_name;
         }
 
         $container->setParameter('features.tags', $tags);

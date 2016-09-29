@@ -81,8 +81,8 @@ final class FeaturesCompilerPass implements CompilerPassInterface
         $tags = $container->getParameter('features.tags');
         $all  = [];
 
-        foreach ($tags as $tag) {
-            $options = $container->getParameter('features.tags.' . $tag . '.options');
+        foreach ($tags as $tag => $param_name) {
+            $options = $container->getParameter('features.tags.' . $param_name . '.options');
 
             // check if all the resolvers are actually configured
             if (count($missing = array_diff(array_keys($options), array_keys($configured_resolvers))) > 0) {
@@ -97,9 +97,9 @@ final class FeaturesCompilerPass implements CompilerPassInterface
             $definition->setFactory([new Reference('features.factory'), 'createFeature']);
             $definition->setArguments([$tag, $options]);
 
-            $container->setDefinition('features.tag.' . $tag, $definition);
+            $container->setDefinition('features.tag.' . $param_name, $definition);
 
-            $all[$tag] = 'features.tag.' . $tag;
+            $all[$tag] = 'features.tag.' . $param_name;
         }
 
         $container
@@ -136,7 +136,7 @@ final class FeaturesCompilerPass implements CompilerPassInterface
 
             $tag = $options[0]['tag'];
 
-            if (!in_array($tag, $tags)) {
+            if (!array_key_exists($tag, $tags)) {
                 throw new InvalidArgumentException(sprintf(
                     'Unknown tag "%s" used in the "feature.tag" of service "%s".',
                     $tag,
@@ -151,7 +151,7 @@ final class FeaturesCompilerPass implements CompilerPassInterface
                     continue;
                 }
 
-                $definition->replaceArgument($index, new Reference('features.tag.' . $tag));
+                $definition->replaceArgument($index, new Reference('features.tag.' . $tags[$tag]));
             }
         }
     }

@@ -14,15 +14,17 @@ class ConfigurationTest extends KernelTestCase
     public function testFeatures()
     {
         $container = static::$kernel->getContainer();
+        $features  = $container->get('features.container');
 
         // check if all the feature services are correcly configured
-        $feature_test  = $container->get('features.tag.test');
-        $feature_test2 = $container->get('features.tag.test2');
-        $feature_test3 = $container->get('features.tag.test3');
-        $feature_test4 = $container->get('features.tag.test4');
-        $feature_test5 = $container->get('features.tag.test5');
-        $feature_test6 = $container->get('features.tag.test6');
-        $feature_test7 = $container->get('features.tag.test7');
+        $feature_test  = $features->get('test');
+        $feature_test2 = $features->get('test2');
+        $feature_test3 = $features->get('test3');
+        $feature_test4 = $features->get('test4');
+        $feature_test5 = $features->get('test5');
+        $feature_test6 = $features->get('test6');
+        $feature_test7 = $features->get('test7');
+        $feature_test8 = $features->get('test-with-strange_name');
 
         self::assertFalse($feature_test->isActive());
         self::assertEquals('test', $feature_test->getName());
@@ -38,6 +40,8 @@ class ConfigurationTest extends KernelTestCase
         self::assertEquals('test6', $feature_test6->getName());
         self::assertFalse($feature_test7->isActive());
         self::assertEquals('test7', $feature_test7->getName());
+        self::assertTrue($feature_test8->isActive());
+        self::assertEquals('test-with-strange_name', $feature_test8->getName());
 
         // check if all the feature services are correcly injected
         self::assertEquals($feature_test, $container->get('app.test')->feature);
@@ -56,6 +60,10 @@ class ConfigurationTest extends KernelTestCase
         self::assertEquals(
             "feature is on",
             $container->get("twig")->render('/test.html.twig', ['feature_name' => 'test2'])
+        );
+        self::assertEquals(
+            "feature is on",
+            $container->get("twig")->render('/test.html.twig', ['feature_name' => 'test-with-strange_name'])
         );
     }
 }

@@ -1,8 +1,6 @@
 <?php
 namespace Yannickl88\FeaturesBundle\Feature;
 
-use Yannickl88\FeaturesBundle\Feature\FeatureResolverInterface;
-
 /**
  * Resolve if a feature is enabled for the given environments.
  */
