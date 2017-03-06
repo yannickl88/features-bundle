@@ -9,6 +9,27 @@ Requirements:
  
 Recommended installation is via composer: `composer require yannickl88/features-bundle`.
 
+After that, you need to register the bundle in the kernel of your application:
+
+```php
+<?php
+// app/AppKernel.php
+
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Config\Loader\LoaderInterface;
+
+class AppKernel extends Kernel
+{
+    public function registerBundles()
+    {
+        $bundles = [
+            new Yannickl88\FeaturesBundle\FeaturesBundle(),
+            // …
+        ];
+    }
+}
+```
+
 # Usage
 All configuration is done using services and your application config. For the following example we want to enable a feature when the GET parameter `beta` is set to `on`.
 
