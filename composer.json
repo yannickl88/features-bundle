@@ -27,7 +27,7 @@
         "symfony/finder":      "^2.7|^3.0",
         "symfony/twig-bundle": "^2.7|^3.0",
         "symfony/yaml":        "^2.7|^3.0",
-        "twig/twig":           "^1.23.1"
+        "twig/twig":           "^1.23.1|^2.0"
     },
     "minimum-stability": "dev",
     "prefer-stable":     true,
