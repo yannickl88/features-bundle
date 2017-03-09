@@ -1,10 +1,12 @@
 <?php
 namespace Yannickl88\FeaturesBundle\Feature;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @covers Yannickl88\FeaturesBundle\Feature\FeatureFactory
  */
-class FeatureFactoryTest extends \PHPUnit_Framework_TestCase
+class FeatureFactoryTest extends TestCase
 {
     private $feature_container;
 

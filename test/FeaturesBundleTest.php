@@ -1,13 +1,14 @@
 <?php
 namespace Yannickl88\FeaturesBundle;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Yannickl88\FeaturesBundle\DependencyInjection\Compiler\FeaturesCompilerPass;
 
 /**
  * @covers Yannickl88\FeaturesBundle\FeaturesBundle
  */
-class FeaturesBundleTest extends \PHPUnit_Framework_TestCase
+class FeaturesBundleTest extends TestCase
 {
     /**
      * @var FeaturesBundle

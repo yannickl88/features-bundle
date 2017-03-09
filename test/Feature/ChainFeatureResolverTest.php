@@ -1,12 +1,13 @@
 <?php
 namespace Yannickl88\FeaturesBundle\Feature;
 
+use PHPUnit\Framework\TestCase;
 use Yannickl88\FeaturesBundle\Feature\FeatureContainerInterface;
 
 /**
  * @covers Yannickl88\FeaturesBundle\Feature\ChainFeatureResolver
  */
-class ChainFeatureResolverTest extends \PHPUnit_Framework_TestCase
+class ChainFeatureResolverTest extends TestCase
 {
     private $feature_container;
 
