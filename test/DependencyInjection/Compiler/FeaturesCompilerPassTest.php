@@ -1,6 +1,7 @@
 <?php
 namespace Yannickl88\FeaturesBundle\DependencyInjection\Compiler;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -11,7 +12,7 @@ use Yannickl88\FeaturesBundle\Feature\FeatureResolverInterface;
 /**
  * @covers Yannickl88\FeaturesBundle\DependencyInjection\Compiler\FeaturesCompilerPass
  */
-class FeaturesCompilerPassTest extends \PHPUnit_Framework_TestCase
+class FeaturesCompilerPassTest extends TestCase
 {
     /**
      * @var FeaturesCompilerPass

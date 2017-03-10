@@ -1,13 +1,14 @@
 <?php
 namespace Yannickl88\FeaturesBundle\Twig;
 
+use PHPUnit\Framework\TestCase;
 use Yannickl88\FeaturesBundle\Feature\Feature;
 use Yannickl88\FeaturesBundle\Feature\FeatureContainerInterface;
 
 /**
  * @covers Yannickl88\FeaturesBundle\Twig\FeaturesExtension
  */
-class FeaturesExtensionTest extends \PHPUnit_Framework_TestCase
+class FeaturesExtensionTest extends TestCase
 {
     private $feature_container;
 

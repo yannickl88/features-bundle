@@ -1,12 +1,13 @@
 <?php
 namespace Yannickl88\FeaturesBundle\Feature;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @covers Yannickl88\FeaturesBundle\Feature\FeatureContainer
  */
-class FeatureContainerTest extends \PHPUnit_Framework_TestCase
+class FeatureContainerTest extends TestCase
 {
     private $container;
     private $feature;

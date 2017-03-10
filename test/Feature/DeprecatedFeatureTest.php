@@ -1,10 +1,12 @@
 <?php
 namespace Yannickl88\FeaturesBundle\Feature;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @covers Yannickl88\FeaturesBundle\Feature\DeprecatedFeature
  */
-class DeprecatedFeatureTest extends \PHPUnit_Framework_TestCase
+class DeprecatedFeatureTest extends TestCase
 {
     /**
      * @var DeprecatedFeature

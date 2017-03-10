@@ -1,12 +1,13 @@
 <?php
 namespace Yannickl88\FeaturesBundle\Feature;
 
+use PHPUnit\Framework\TestCase;
 use Yannickl88\FeaturesBundle\Feature\Resolver;
 
 /**
  * @covers Yannickl88\FeaturesBundle\Feature\ResolvableFeature
  */
-class ResolvableFeatureTest extends \PHPUnit_Framework_TestCase
+class ResolvableFeatureTest extends TestCase
 {
     private $name;
     private $resolver;
