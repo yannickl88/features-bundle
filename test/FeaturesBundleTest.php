@@ -26,9 +26,9 @@ class FeaturesBundleTest extends TestCase
 
         $this->features_bundle->build($container);
 
-        self::assertInstanceOf(
+        self::assertContains(
             FeaturesCompilerPass::class,
-            $container->getCompilerPassConfig()->getBeforeOptimizationPasses()[3]
+            array_map("get_class", $container->getCompilerPassConfig()->getBeforeOptimizationPasses())
         );
     }
 }
