@@ -94,6 +94,7 @@ final class FeaturesCompilerPass implements CompilerPassInterface
             }
 
             $definition = new Definition(Feature::class);
+            $definition->setPublic(true);
             $definition->setFactory([new Reference('features.factory'), 'createFeature']);
             $definition->setArguments([$tag, $options]);
 

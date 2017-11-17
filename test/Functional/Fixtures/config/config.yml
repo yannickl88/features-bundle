@@ -12,24 +12,28 @@ services:
     # test classes to inject the features into
     app.test:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
+        public: true
         arguments:
             - "@features.tag"
         tags:
             - { name: features.tag, tag: test }
     app.test2:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
+        public: true
         arguments:
             - "@features.tag"
         tags:
             - { name: features.tag, tag: test2 }
     app.test3:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
+        public: true
         arguments:
             - "@features.tag"
         tags:
             - { name: features.tag, tag: test-with-strange_name }
     app.test_no_tag:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
+        public: true
         arguments:
             - "@features.tag"
 
@@ -37,8 +41,8 @@ framework:
     secret: test
 
 twig:
-    debug:            %kernel.debug%
-    strict_variables: %kernel.debug%
+    debug:            '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
 
 features:
     tags:
