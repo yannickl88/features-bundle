@@ -9,12 +9,17 @@ cache:
 env:
   - COMPOSER_FLAGS="--prefer-stable"
 
+php:
+    5.5.9
+    7.0
+    7.1
+
 matrix:
   include:
+    - php: 5.5.9
+      env: COMPOSER_FLAGS="--prefer-lowest"
     - php: 7.1
       env: COMPOSER_FLAGS="" SYMFONY_VERSION="3.3.*"
-    - php: 7.1
-      env: COMPOSER_FLAGS="--prefer-lowest"
     - php: 7.1
       env: COMPOSER_FLAGS="" SYMFONY_VERSION="4.0.*"
     - php: 7.2
