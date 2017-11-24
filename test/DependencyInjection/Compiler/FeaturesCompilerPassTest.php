@@ -10,7 +10,7 @@ use Yannickl88\FeaturesBundle\Feature\FeatureFactory;
 use Yannickl88\FeaturesBundle\Feature\FeatureResolverInterface;
 
 /**
- * @covers Yannickl88\FeaturesBundle\DependencyInjection\Compiler\FeaturesCompilerPass
+ * @covers \Yannickl88\FeaturesBundle\DependencyInjection\Compiler\FeaturesCompilerPass
  */
 class FeaturesCompilerPassTest extends TestCase
 {
@@ -50,8 +50,8 @@ class FeaturesCompilerPassTest extends TestCase
         $container->setDefinition('test.resolver1', $resolver1);
         $container->setDefinition('test.resolver2', $resolver2);
 
-        $container->setDefinition('features.factory', $factory);
-        $container->setDefinition('features.container', $feature_container);
+        $container->setDefinition(FeatureFactory::class, $factory);
+        $container->setDefinition(FeatureContainer::class, $feature_container);
         $container->setParameter('features.tags', ['foo' => 'foo', 'bar' => 'bar']);
         $container->setParameter('features.tags.foo.options', ['resolver1' => []]);
         $container->setParameter('features.tags.bar.options', ['resolver2' => []]);
@@ -81,7 +81,7 @@ class FeaturesCompilerPassTest extends TestCase
 
         $container->setDefinition('test.resolver', $resolver);
 
-        $container->setDefinition('features.factory', $factory);
+        $container->setDefinition(FeatureFactory::class, $factory);
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
@@ -109,7 +109,7 @@ class FeaturesCompilerPassTest extends TestCase
         $container->setDefinition('test.resolver1', $resolver1);
         $container->setDefinition('test.resolver2', $resolver1);
 
-        $container->setDefinition('features.factory', $factory);
+        $container->setDefinition(FeatureFactory::class, $factory);
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
@@ -136,8 +136,8 @@ class FeaturesCompilerPassTest extends TestCase
 
         $container->setDefinition('test.resolver', $resolver);
 
-        $container->setDefinition('features.factory', $factory);
-        $container->setDefinition('features.container', $feature_container);
+        $container->setDefinition(FeatureFactory::class, $factory);
+        $container->setDefinition(FeatureContainer::class, $feature_container);
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['missing' => []]);
 
@@ -171,8 +171,8 @@ class FeaturesCompilerPassTest extends TestCase
 
         $container->setDefinition('test.resolver', $resolver);
 
-        $container->setDefinition('features.factory', $factory);
-        $container->setDefinition('features.container', $feature_container);
+        $container->setDefinition(FeatureFactory::class, $factory);
+        $container->setDefinition(FeatureContainer::class, $feature_container);
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
@@ -207,8 +207,8 @@ class FeaturesCompilerPassTest extends TestCase
 
         $container->setDefinition('test.resolver', $resolver);
 
-        $container->setDefinition('features.factory', $factory);
-        $container->setDefinition('features.container', $feature_container);
+        $container->setDefinition(FeatureFactory::class, $factory);
+        $container->setDefinition(FeatureContainer::class, $feature_container);
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
@@ -242,8 +242,8 @@ class FeaturesCompilerPassTest extends TestCase
 
         $container->setDefinition('test.resolver', $resolver);
 
-        $container->setDefinition('features.factory', $factory);
-        $container->setDefinition('features.container', $feature_container);
+        $container->setDefinition(FeatureFactory::class, $factory);
+        $container->setDefinition(FeatureContainer::class, $feature_container);
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 

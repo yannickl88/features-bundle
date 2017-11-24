@@ -1,7 +1,7 @@
 # PHPUnit
 /phpunit.xml
 coverage/
-test/Functional/Fixtures/cache/
+/var/
 
 # composer
 /vendor/

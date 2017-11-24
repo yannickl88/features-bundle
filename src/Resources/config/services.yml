@@ -1,24 +1,27 @@
 services:
-    features.factory:
-        class: Yannickl88\FeaturesBundle\Feature\FeatureFactory
-        arguments:
-            - "@features.container"
+    # old service names, deprecated
+    features.factory: '@Yannickl88\FeaturesBundle\Feature\FeatureFactory'
+    features.container: '@Yannickl88\FeaturesBundle\Feature\FeatureContainer'
+    features.tag: '@Yannickl88\FeaturesBundle\Feature\DeprecatedFeature'
+    features.twig_extension: '@Yannickl88\FeaturesBundle\Twig\FeaturesExtension'
 
-    features.container:
-        class: Yannickl88\FeaturesBundle\Feature\FeatureContainer
+    Yannickl88\FeaturesBundle\Feature\FeatureFactory:
+        - '@Yannickl88\FeaturesBundle\Feature\FeatureContainer'
+
+    Yannickl88\FeaturesBundle\Feature\FeatureContainer:
         public: true
         arguments:
             - "@service_container"
             - [] # replaced by extension
             - [] # replaced by extension
 
-    features.tag:
-        class: Yannickl88\FeaturesBundle\Feature\DeprecatedFeature
+    # alias to allow autowiring the deprecated feature by default
+    Yannickl88\FeaturesBundle\Feature\Feature: '@Yannickl88\FeaturesBundle\Feature\DeprecatedFeature'
+    Yannickl88\FeaturesBundle\Feature\DeprecatedFeature: ~
 
-    features.twig_extension:
-        class: Yannickl88\FeaturesBundle\Twig\FeaturesExtension
+    Yannickl88\FeaturesBundle\Twig\FeaturesExtension:
         public: false
         arguments:
-            - "@features.container"
+            - '@Yannickl88\FeaturesBundle\Feature\FeatureContainer'
         tags:
-            - { name: twig.extension }
+            - twig.extension
