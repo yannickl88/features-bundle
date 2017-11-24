@@ -1,7 +1,9 @@
 services:
     # old service names, deprecated
     features.factory: '@Yannickl88\FeaturesBundle\Feature\FeatureFactory'
-    features.container: '@Yannickl88\FeaturesBundle\Feature\FeatureContainer'
+    features.container:
+        alias: Yannickl88\FeaturesBundle\Feature\FeatureContainer
+        public: true
     features.tag: '@Yannickl88\FeaturesBundle\Feature\DeprecatedFeature'
     features.twig_extension: '@Yannickl88\FeaturesBundle\Twig\FeaturesExtension'
 
