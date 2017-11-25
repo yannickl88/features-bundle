@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 use Yannickl88\FeaturesBundle\Feature\Feature;
+use Yannickl88\FeaturesBundle\Feature\FeatureContainer;
 
 /**
  * Compiler pass which create the feature tag services and replaces the tagged
@@ -63,7 +64,7 @@ final class FeaturesCompilerPass implements CompilerPassInterface
             }
         }
         $container
-            ->getDefinition('features.container')
+            ->getDefinition(FeatureContainer::class)
             ->replaceArgument(2, $resolvers);
 
         return $resolvers;
@@ -104,7 +105,7 @@ final class FeaturesCompilerPass implements CompilerPassInterface
         }
 
         $container
-            ->getDefinition('features.container')
+            ->getDefinition(FeatureContainer::class)
             ->replaceArgument(1, $all);
 
         return $tags;
