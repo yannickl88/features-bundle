@@ -77,7 +77,7 @@ class RequestResolver implements FeatureResolverInterface
     public function isActive(array $options = [])
     {
         // Feature is inactive when there is no request
-        if (null === ($request = $this->request_stack->getMasterRequest())) {
+        if (null === $request = $this->request_stack->getMasterRequest()) {
             return false;
         }
 
