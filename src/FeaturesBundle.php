@@ -1,8 +1,10 @@
 <?php
 namespace Yannickl88\FeaturesBundle;
 
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Yannickl88\FeaturesBundle\DependencyInjection\Compiler\AddFeaturesCompilerPass;
 use Yannickl88\FeaturesBundle\DependencyInjection\Compiler\FeaturesCompilerPass;
 
 /**
@@ -15,6 +17,7 @@ final class FeaturesBundle extends Bundle
      */
     public function build(ContainerBuilder $container)
     {
-        $container->addCompilerPass(new FeaturesCompilerPass());
+        $container->addCompilerPass(new AddFeaturesCompilerPass());
+        $container->addCompilerPass(new FeaturesCompilerPass(), PassConfig::TYPE_BEFORE_REMOVING);
     }
 }

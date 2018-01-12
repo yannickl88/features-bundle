@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
+use Yannickl88\FeaturesBundle\Feature\DeprecatedFeature;
 use Yannickl88\FeaturesBundle\Feature\Feature;
 use Yannickl88\FeaturesBundle\Feature\FeatureContainer;
 
@@ -22,93 +23,12 @@ final class FeaturesCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        // configure the resolvers
-        $resolvers = $this->configureResolvers($container);
-
-        // configure the tags
-        $tags = $this->configureTags($container, $resolvers);
+        $tags = $container->getParameter('features.available_tags');
 
         // replace all tagged features with correct feature tag
         $this->replaceTaggedFeatures($container, $tags);
-    }
 
-    /**
-     * Configure the resolvers in the service container.
-     *
-     * @param ContainerBuilder $container
-     * @return string[]
-     */
-    private function configureResolvers(ContainerBuilder $container)
-    {
-        $services  = $container->findTaggedServiceIds('features.resolver');
-        $resolvers = ['chain' => true];
-
-        foreach ($services as $id => $options) {
-            foreach ($options as $tag_options) {
-                if (!isset($tag_options['config-key'])) {
-                    throw new InvalidArgumentException(sprintf(
-                        'The value for "config-key" is missing in the tag "features.tag" for service "%s".',
-                        $id
-                    ));
-                }
-                $config_key = $tag_options['config-key'];
-
-                if (isset($resolvers[$config_key])) {
-                    throw new InvalidArgumentException(sprintf(
-                        'The config-key "%s" is already configured by resolver "%s".',
-                        $config_key,
-                        (string) $resolvers[$config_key]
-                    ));
-                }
-                $resolvers[$config_key] = new Reference($id);
-            }
-        }
-        $container
-            ->getDefinition(FeatureContainer::class)
-            ->replaceArgument(2, $resolvers);
-
-        return $resolvers;
-    }
-
-    /**
-     * Configure the tags in the service container.
-     *
-     * @param ContainerBuilder $container
-     * @param string[]         $configured_resolvers
-     * @return string[]
-     */
-    private function configureTags(ContainerBuilder $container, array $configured_resolvers)
-    {
-        $tags = $container->getParameter('features.tags');
-        $all  = [];
-
-        foreach ($tags as $tag => $param_name) {
-            $options = $container->getParameter('features.tags.' . $param_name . '.options');
-
-            // check if all the resolvers are actually configured
-            if (count($missing = array_diff(array_keys($options), array_keys($configured_resolvers))) > 0) {
-                throw new InvalidArgumentException(sprintf(
-                    'Unknown resolver(s) %s configured for feature tag "%s".',
-                    trim(json_encode(array_values($missing)), '[]'),
-                    $tag
-                ));
-            }
-
-            $definition = new Definition(Feature::class);
-            $definition->setPublic(true);
-            $definition->setFactory([new Reference('features.factory'), 'createFeature']);
-            $definition->setArguments([$tag, $options]);
-
-            $container->setDefinition('features.tag.' . $param_name, $definition);
-
-            $all[$tag] = 'features.tag.' . $param_name;
-        }
-
-        $container
-            ->getDefinition(FeatureContainer::class)
-            ->replaceArgument(1, $all);
-
-        return $tags;
+        $container->getParameterBag()->remove('features.available_tags');
     }
 
     /**
@@ -149,7 +69,9 @@ final class FeaturesCompilerPass implements CompilerPassInterface
             $definition = $container->getDefinition($id);
 
             foreach ($definition->getArguments() as $index => $argument) {
-                if (! $argument instanceof Reference || $argument->__toString() !== 'features.tag') {
+                if (! $argument instanceof Reference
+                    || !in_array($argument->__toString(), ['features.tag', DeprecatedFeature::class])
+                ) {
                     continue;
                 }
 

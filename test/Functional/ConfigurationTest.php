@@ -3,6 +3,8 @@ namespace Yannickl88\FeaturesBundle;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Yannickl88\FeaturesBundle\Feature\DeprecatedFeature;
+use Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass;
+use Yannickl88\FeaturesBundle\Functional\Fixtures\TestKernel;
 
 class ConfigurationTest extends KernelTestCase
 {
@@ -44,8 +46,9 @@ class ConfigurationTest extends KernelTestCase
         self::assertEquals('test-with-strange_name', $feature_test8->getName());
 
         // check if all the feature services are correcly injected
-        self::assertEquals($feature_test, $container->get('app.test')->feature);
+        self::assertEquals($feature_test, $container->get(TestClass::class)->feature);
         self::assertEquals($feature_test2, $container->get('app.test2')->feature);
+        self::assertEquals($feature_test8, $container->get('app.test3')->feature);
         self::assertEquals(new DeprecatedFeature(), $container->get('app.test_no_tag')->feature);
     }
 
