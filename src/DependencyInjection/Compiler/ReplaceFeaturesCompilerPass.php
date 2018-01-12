@@ -11,12 +11,11 @@ use Yannickl88\FeaturesBundle\Feature\Feature;
 use Yannickl88\FeaturesBundle\Feature\FeatureContainer;
 
 /**
- * Compiler pass which create the feature tag services and replaces the tagged
- * services arguments with the correct feature.
+ * Compiler pass which replaces the tagged services arguments with the correct feature.
  *
  * @author Yannick de Lange <yannick.l.88@gmail.com>
  */
-final class FeaturesCompilerPass implements CompilerPassInterface
+final class ReplaceFeaturesCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
@@ -24,22 +23,8 @@ final class FeaturesCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $tags = $container->getParameter('features.available_tags');
-
-        // replace all tagged features with correct feature tag
-        $this->replaceTaggedFeatures($container, $tags);
-
         $container->getParameterBag()->remove('features.available_tags');
-    }
 
-    /**
-     * Replace default feature service arguments with the feature correct
-     * feature service for all tagged services.
-     *
-     * @param ContainerBuilder $container
-     * @param string[]         $tags
-     */
-    private function replaceTaggedFeatures(ContainerBuilder $container, array $tags)
-    {
         $services = $container->findTaggedServiceIds('features.tag');
 
         foreach ($services as $id => $options) {

@@ -11,12 +11,14 @@ use Yannickl88\FeaturesBundle\Feature\Feature;
 use Yannickl88\FeaturesBundle\Feature\FeatureContainer;
 
 /**
- * Compiler pass which create the feature tag services and replaces the tagged
- * services arguments with the correct feature.
+ * Compiler pass which collects and create the feature tag services which can
+ * be used in the ReplaceFeatureCompilerPass.
+ *
+ * @see ReplaceFeaturesCompilerPass
  *
  * @author Yannick de Lange <yannick.l.88@gmail.com>
  */
-final class AddFeaturesCompilerPass implements CompilerPassInterface
+final class ConfigureFeaturesCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
