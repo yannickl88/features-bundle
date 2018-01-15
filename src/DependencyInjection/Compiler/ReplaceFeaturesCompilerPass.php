@@ -22,9 +22,7 @@ final class ReplaceFeaturesCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $tags = $container->getParameter('features.available_tags');
-        $container->getParameterBag()->remove('features.available_tags');
-
+        $tags     = $container->getParameter('features.tags');
         $services = $container->findTaggedServiceIds('features.tag');
 
         foreach ($services as $id => $options) {

@@ -29,7 +29,7 @@ final class ConfigureFeaturesCompilerPass implements CompilerPassInterface
         $resolvers = $this->configureResolvers($container);
 
         // configure the tags
-        $container->setParameter('features.available_tags', $this->configureTags($container, $resolvers));
+        $this->configureTags($container, $resolvers);
     }
 
     /**
