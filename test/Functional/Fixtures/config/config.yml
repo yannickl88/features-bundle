@@ -1,22 +1,25 @@
 services:
+    _defaults:
+        autowire: true
+
+    Yannickl88\FeaturesBundle\Functional\Fixtures\Dummy: ~
+
     # resolvers
-    app.feature.foo_resolver:
-        class: Yannickl88\FeaturesBundle\Functional\Fixtures\FooFeatureResolver
+    Yannickl88\FeaturesBundle\Functional\Fixtures\FooFeatureResolver:
         tags:
             - { name: features.resolver, config-key: foo }
             - { name: features.resolver, config-key: fooz }
-    app.feature.bar_resolver:
-        class: Yannickl88\FeaturesBundle\Functional\Fixtures\BarFeatureResolver
+
+    Yannickl88\FeaturesBundle\Functional\Fixtures\BarFeatureResolver:
         tags:
             - { name: features.resolver, config-key: bar }
+
     # test classes to inject the features into
-    app.test:
-        class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
+    Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass:
         public: true
-        arguments:
-            - "@features.tag"
         tags:
             - { name: features.tag, tag: test }
+
     app.test2:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
         public: true
@@ -24,18 +27,17 @@ services:
             - "@features.tag"
         tags:
             - { name: features.tag, tag: test2 }
+
     app.test3:
-        class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
+        class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClassWithArgument
         public: true
-        arguments:
-            - "@features.tag"
         tags:
             - { name: features.tag, tag: test-with-strange_name }
+
     app.test_no_tag:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
         public: true
-        arguments:
-            - "@features.tag"
+
 
 framework:
     secret: test

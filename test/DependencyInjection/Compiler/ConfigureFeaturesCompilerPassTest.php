@@ -10,18 +10,18 @@ use Yannickl88\FeaturesBundle\Feature\FeatureFactory;
 use Yannickl88\FeaturesBundle\Feature\FeatureResolverInterface;
 
 /**
- * @covers \Yannickl88\FeaturesBundle\DependencyInjection\Compiler\FeaturesCompilerPass
+ * @covers \Yannickl88\FeaturesBundle\DependencyInjection\Compiler\ConfigureFeaturesCompilerPass
  */
-class FeaturesCompilerPassTest extends TestCase
+class ConfigureFeaturesCompilerPassTest extends TestCase
 {
     /**
-     * @var FeaturesCompilerPass
+     * @var ConfigureFeaturesCompilerPass
      */
-    private $features_compiler_pass;
+    private $configure_features_compiler_pass;
 
     protected function setUp()
     {
-        $this->features_compiler_pass = new FeaturesCompilerPass();
+        $this->configure_features_compiler_pass = new ConfigureFeaturesCompilerPass();
     }
 
     public function testProcess()
@@ -56,18 +56,17 @@ class FeaturesCompilerPassTest extends TestCase
         $container->setParameter('features.tags.foo.options', ['resolver1' => []]);
         $container->setParameter('features.tags.bar.options', ['resolver2' => []]);
 
-        $this->features_compiler_pass->process($container);
+        $this->configure_features_compiler_pass->process($container);
 
         self::assertTrue($container->hasDefinition('features.tag.foo'));
         self::assertTrue($container->hasDefinition('features.tag.bar'));
 
-        self::assertEquals('features.tag.foo', $target->getArgument(1)->__toString());
+        self::assertEquals('features.tag', $target->getArgument(1)->__toString());
     }
 
     /**
      * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      * @expectedExceptionMessage The value for "config-key" is missing in the tag "features.tag" for service "test.resolver".
-     *
      */
     public function testProcessMissingConfigKey()
     {
@@ -85,13 +84,12 @@ class FeaturesCompilerPassTest extends TestCase
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
-        $this->features_compiler_pass->process($container);
+        $this->configure_features_compiler_pass->process($container);
     }
 
     /**
      * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      * @expectedExceptionMessage The config-key "resolver" is already configured by resolver "test.resolver1".
-     *
      */
     public function testProcessDuplicateConfigKey()
     {
@@ -113,13 +111,12 @@ class FeaturesCompilerPassTest extends TestCase
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
-        $this->features_compiler_pass->process($container);
+        $this->configure_features_compiler_pass->process($container);
     }
 
     /**
      * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      * @expectedExceptionMessage Unknown resolver(s) "missing" configured for feature tag "foo".
-     *
      */
     public function testProcessMissingResolver()
     {
@@ -141,112 +138,6 @@ class FeaturesCompilerPassTest extends TestCase
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['missing' => []]);
 
-        $this->features_compiler_pass->process($container);
-    }
-
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
-     * @expectedExceptionMessage The value for "tag" is missing in the tag "features.tag" for service "test.service".
-     *
-     */
-    public function testProcessMissingTag()
-    {
-        $container = new ContainerBuilder();
-
-        $factory = new Definition(FeatureFactory::class);
-        $factory->setArguments(['']);
-
-        $feature_container = new Definition(FeatureContainer::class);
-        $feature_container->setArguments([new Reference('service_container'), [], []]);
-
-        $target = new Definition(\stdClass::class);
-        $target->addArgument('foobar');
-        $target->addArgument(new Reference('features.tag'));
-        $target->addTag('features.tag', []);
-
-        $container->setDefinition('test.service', $target);
-
-        $resolver = new Definition(FeatureResolverInterface::class);
-        $resolver->addTag('features.resolver', ['config-key' => 'resolver']);
-
-        $container->setDefinition('test.resolver', $resolver);
-
-        $container->setDefinition(FeatureFactory::class, $factory);
-        $container->setDefinition(FeatureContainer::class, $feature_container);
-        $container->setParameter('features.tags', ['foo' => 'foo']);
-        $container->setParameter('features.tags.foo.options', ['resolver' => []]);
-
-        $this->features_compiler_pass->process($container);
-    }
-
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Multiple "features.tag" tags found for service "test.service", only one is allowed per service.
-     *
-     */
-    public function testProcessMultipleTags()
-    {
-        $container = new ContainerBuilder();
-
-        $factory = new Definition(FeatureFactory::class);
-        $factory->setArguments(['']);
-
-        $feature_container = new Definition(FeatureContainer::class);
-        $feature_container->setArguments([new Reference('service_container'), [], []]);
-
-        $target = new Definition(\stdClass::class);
-        $target->addArgument('foobar');
-        $target->addArgument(new Reference('features.tag'));
-        $target->addTag('features.tag', ['tag' => 'foo']);
-        $target->addTag('features.tag', ['tag' => 'foo']);
-
-        $container->setDefinition('test.service', $target);
-
-        $resolver = new Definition(FeatureResolverInterface::class);
-        $resolver->addTag('features.resolver', ['config-key' => 'resolver']);
-
-        $container->setDefinition('test.resolver', $resolver);
-
-        $container->setDefinition(FeatureFactory::class, $factory);
-        $container->setDefinition(FeatureContainer::class, $feature_container);
-        $container->setParameter('features.tags', ['foo' => 'foo']);
-        $container->setParameter('features.tags.foo.options', ['resolver' => []]);
-
-        $this->features_compiler_pass->process($container);
-    }
-
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Unknown tag "bar" used in the "feature.tag" of service "test.service".
-     *
-     */
-    public function testProcessUnknownTag()
-    {
-        $container = new ContainerBuilder();
-
-        $factory = new Definition(FeatureFactory::class);
-        $factory->setArguments(['']);
-
-        $feature_container = new Definition(FeatureContainer::class);
-        $feature_container->setArguments([new Reference('service_container'), [], []]);
-
-        $target = new Definition(\stdClass::class);
-        $target->addArgument('foobar');
-        $target->addArgument(new Reference('features.tag'));
-        $target->addTag('features.tag', ['tag' => 'bar']);
-
-        $container->setDefinition('test.service', $target);
-
-        $resolver = new Definition(FeatureResolverInterface::class);
-        $resolver->addTag('features.resolver', ['config-key' => 'resolver']);
-
-        $container->setDefinition('test.resolver', $resolver);
-
-        $container->setDefinition(FeatureFactory::class, $factory);
-        $container->setDefinition(FeatureContainer::class, $feature_container);
-        $container->setParameter('features.tags', ['foo' => 'foo']);
-        $container->setParameter('features.tags.foo.options', ['resolver' => []]);
-
-        $this->features_compiler_pass->process($container);
+        $this->configure_features_compiler_pass->process($container);
     }
 }
