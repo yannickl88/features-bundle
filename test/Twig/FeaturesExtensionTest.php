@@ -2,6 +2,7 @@
 namespace Yannickl88\FeaturesBundle\Twig;
 
 use PHPUnit\Framework\TestCase;
+use Twig\TwigFunction;
 use Yannickl88\FeaturesBundle\Feature\Feature;
 use Yannickl88\FeaturesBundle\Feature\FeatureContainerInterface;
 
@@ -26,7 +27,7 @@ class FeaturesExtensionTest extends TestCase
 
     public function testGetFunctions()
     {
-        /* @var $functions \Twig_SimpleFunction[] */
+        /* @var $functions TwigFunction[] */
         $functions = $this->features_extension->getFunctions();
         $feature   = $this->prophesize(Feature::class);
 

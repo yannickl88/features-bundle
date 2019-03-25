@@ -1,12 +1,14 @@
 <?php
 namespace Yannickl88\FeaturesBundle\Twig;
 
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 use Yannickl88\FeaturesBundle\Feature\FeatureContainerInterface;
 
 /**
- * Twig extention for feature support in twig templates.
+ * Twig extension for feature support in twig templates.
  */
-class FeaturesExtension extends \Twig_Extension
+class FeaturesExtension extends AbstractExtension
 {
     /**
      * @var FeatureContainerInterface
@@ -27,7 +29,7 @@ class FeaturesExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('feature', function ($tag) {
+            new TwigFunction('feature', function ($tag) {
                 return $this->container->get($tag)->isActive();
             }),
         ];
