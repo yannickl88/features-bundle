@@ -27,7 +27,7 @@
         "phpunit/phpunit":     "^4.8.35|^6.0",
         "symfony/twig-bundle": "^3.3|^4.0",
         "symfony/yaml":        "^3.3|^4.0",
-        "twig/twig":           "^1.23.1|^2.0"
+        "twig/twig":           "^1.38.1|^2.7.2"
     },
     "minimum-stability": "dev",
     "prefer-stable":     true,
