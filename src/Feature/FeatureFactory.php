@@ -9,14 +9,8 @@ namespace Yannickl88\FeaturesBundle\Feature;
  */
 final class FeatureFactory
 {
-    /**
-     * @var FeatureContainer
-     */
     private $feature_container;
 
-    /**
-     * @param FeatureContainerInterface $feature_container
-     */
     public function __construct(FeatureContainerInterface $feature_container)
     {
         $this->feature_container = $feature_container;
@@ -31,12 +25,8 @@ final class FeatureFactory
      *     resolver2 => [<resolver specific options>],
      *     // etc.
      * ]
-     *
-     * @param string $feature_name
-     * @param array  $options
-     * @return Feature
      */
-    public function createFeature($feature_name, array $options = [])
+    public function createFeature(string $feature_name, array $options = []): Feature
     {
         $resolver = new Resolver();
 

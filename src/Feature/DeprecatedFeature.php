@@ -12,7 +12,7 @@ final class DeprecatedFeature implements Feature
     /**
      * {@inheritdoc}
      */
-    public function isActive()
+    public function isActive(): bool
     {
         @trigger_error(
             'Feature with no tag was used, please remove or configure the tag.',

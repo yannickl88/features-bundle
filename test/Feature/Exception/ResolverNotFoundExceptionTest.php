@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ResolverNotFoundExceptionTest extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $e = new ResolverNotFoundException('foo');
 

@@ -10,8 +10,6 @@ interface Feature
 {
     /**
      * Check if the feature is active for the current request.
-     *
-     * @return bool
      */
-    public function isActive();
+    public function isActive(): bool;
 }

@@ -9,21 +9,10 @@ namespace Yannickl88\FeaturesBundle\Feature;
  */
 final class ResolvableFeature implements Feature
 {
-    /**
-     * @var string
-     */
     private $name;
-
-    /**
-     * @var Resolver
-     */
     private $resolver;
 
-    /**
-     * @param string $name
-     * @param bool   $active
-     */
-    public function __construct($name, Resolver $resolver)
+    public function __construct(string $name, Resolver $resolver)
     {
         $this->name     = $name;
         $this->resolver = $resolver;
@@ -31,10 +20,8 @@ final class ResolvableFeature implements Feature
 
     /**
      * Return the name of the feature.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -42,7 +29,7 @@ final class ResolvableFeature implements Feature
     /**
      * {@inheritdoc}
      */
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->resolver->resolve();
     }

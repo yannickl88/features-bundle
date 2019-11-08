@@ -16,12 +16,12 @@ class FeaturesBundleTest extends TestCase
      */
     private $features_bundle;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->features_bundle = new FeaturesBundle();
     }
 
-    public function testBuild()
+    public function testBuild(): void
     {
         $container = new ContainerBuilder();
 

@@ -22,11 +22,7 @@ class Resolver
      */
     private $resolver_options = [];
 
-    /**
-     * @param FeatureResolverInterface $resolver
-     * @param array                    $options
-     */
-    public function addResolver(FeatureResolverInterface $resolver, array $options = [])
+    public function addResolver(FeatureResolverInterface $resolver, array $options = []): void
     {
         $key = spl_object_hash($resolver);
 
@@ -37,11 +33,9 @@ class Resolver
     /**
      * Resolve the final value.
      *
-     * @param string $strategy
-     * @return bool
      * @throws \InvalidArgumentException when strategy is unknown.
      */
-    public function resolve($strategy = self::STRATEGY_UNANIMOUS)
+    public function resolve(string $strategy = self::STRATEGY_UNANIMOUS): bool
     {
         switch ($strategy) {
             case self::STRATEGY_AFFIRMATIVE:
@@ -56,10 +50,8 @@ class Resolver
     /**
      * Resolve the feature where at least one voter needs to resolve true for
      * the feature to be active.
-     *
-     * @return bool
      */
-    private function resolveAffirmative()
+    private function resolveAffirmative(): bool
     {
         foreach ($this->resolvers as $key => $resolver) {
             if ($resolver->isActive($this->resolver_options[$key])) {
@@ -73,10 +65,8 @@ class Resolver
     /**
      * Resolve the feature where all the voters needs to resolve true for
      * the feature to be active.
-     *
-     * @return bool
      */
-    private function resolveUnanimous()
+    private function resolveUnanimous(): bool
     {
         foreach ($this->resolvers as $key => $resolver) {
             if (!$resolver->isActive($this->resolver_options[$key])) {

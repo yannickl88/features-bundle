@@ -17,7 +17,7 @@ final class FeaturesExtension extends ConfigurableExtension
     /**
      * {@inheritdoc}
      */
-    protected function loadInternal(array $config, ContainerBuilder $container)
+    protected function loadInternal(array $config, ContainerBuilder $container): void
     {
         $tags = [];
         foreach ($config['tags'] as $name => $options) {

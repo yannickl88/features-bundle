@@ -12,19 +12,8 @@ use Yannickl88\FeaturesBundle\Feature\Exception\ResolverNotFoundException;
  */
 final class FeatureContainer implements FeatureContainerInterface
 {
-    /**
-     * @var ContainerInterface
-     */
     private $container;
-
-    /**
-     * @var string[]
-     */
     private $features;
-
-    /**
-     * @var FeatureResolverInterface[]
-     */
     private $resolvers;
 
     /**
@@ -42,7 +31,7 @@ final class FeatureContainer implements FeatureContainerInterface
     /**
      * {@inheritdoc}
      */
-    public function get($tag)
+    public function get($tag): Feature
     {
         if (!isset($this->features[$tag])) {
             throw new FeatureNotFoundException($tag);
@@ -54,9 +43,9 @@ final class FeatureContainer implements FeatureContainerInterface
     /**
      * {@inheritdoc}
      */
-    public function getResolver($name)
+    public function getResolver(string $name): FeatureResolverInterface
     {
-        if ($name == 'chain') { // special resolver
+        if ($name === 'chain') { // Special resolver.
             return new ChainFeatureResolver($this);
         }
 

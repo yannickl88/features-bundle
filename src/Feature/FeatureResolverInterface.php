@@ -12,9 +12,6 @@ interface FeatureResolverInterface
 {
     /**
      * Check if this feature is active.
-     *
-     * @param array $options
-     * @return bool
      */
-    public function isActive(array $options = []);
+    public function isActive(array $options = []): bool;
 }

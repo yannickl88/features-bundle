@@ -13,12 +13,12 @@ class ResolverTest extends TestCase
      */
     private $resolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->resolver = new Resolver();
     }
 
-    public function testAddResolver()
+    public function testAddResolver(): void
     {
         $feature_resolver = $this->prophesize(FeatureResolverInterface::class);
 
@@ -28,7 +28,7 @@ class ResolverTest extends TestCase
         self::assertTrue($this->resolver->resolve());
     }
 
-    public function testResolveUnanimous()
+    public function testResolveUnanimous(): void
     {
         $feature_resolver1 = $this->prophesize(FeatureResolverInterface::class);
         $feature_resolver2 = $this->prophesize(FeatureResolverInterface::class);
@@ -42,7 +42,7 @@ class ResolverTest extends TestCase
         self::assertFalse($this->resolver->resolve(Resolver::STRATEGY_UNANIMOUS));
     }
 
-    public function testResolveAffirmative()
+    public function testResolveAffirmative(): void
     {
         $feature_resolver1 = $this->prophesize(FeatureResolverInterface::class);
         $feature_resolver2 = $this->prophesize(FeatureResolverInterface::class);
@@ -56,7 +56,7 @@ class ResolverTest extends TestCase
         self::assertTrue($this->resolver->resolve(Resolver::STRATEGY_AFFIRMATIVE));
     }
 
-    public function testResolveAffirmativeNoDecision()
+    public function testResolveAffirmativeNoDecision(): void
     {
         $feature_resolver1 = $this->prophesize(FeatureResolverInterface::class);
         $feature_resolver2 = $this->prophesize(FeatureResolverInterface::class);
@@ -70,15 +70,10 @@ class ResolverTest extends TestCase
         self::assertFalse($this->resolver->resolve(Resolver::STRATEGY_AFFIRMATIVE));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The strategy "henk" is not supported.
-     */
-    public function testResolveUnknown()
+    public function testResolveUnknown(): void
     {
-        $this->resolver->addResolver($this->prophesize(FeatureResolverInterface::class)->reveal(), ['henk']);
-        $this->resolver->addResolver($this->prophesize(FeatureResolverInterface::class)->reveal(), ['hans']);
-
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The strategy "henk" is not supported.');
         self::assertFalse($this->resolver->resolve('henk'));
     }
 }

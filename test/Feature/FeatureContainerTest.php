@@ -3,6 +3,8 @@ namespace Yannickl88\FeaturesBundle\Feature;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Yannickl88\FeaturesBundle\Feature\Exception\FeatureNotFoundException;
+use Yannickl88\FeaturesBundle\Feature\Exception\ResolverNotFoundException;
 
 /**
  * @covers Yannickl88\FeaturesBundle\Feature\FeatureContainer
@@ -20,7 +22,7 @@ class FeatureContainerTest extends TestCase
      */
     private $feature_container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
         $this->feature   = $this->prophesize(Feature::class);
@@ -40,36 +42,32 @@ class FeatureContainerTest extends TestCase
         );
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $this->container->get('features.tag.test')->willReturn($this->feature);
 
         self::assertSame($this->feature->reveal(), $this->feature_container->get('test'));
     }
 
-    /**
-     * @expectedException Yannickl88\FeaturesBundle\Feature\Exception\FeatureNotFoundException
-     */
-    public function testGetUnknownFeature()
+    public function testGetUnknownFeature(): void
     {
+        $this->expectException(FeatureNotFoundException::class);
         $this->feature_container->get('phpunit');
     }
 
-    public function testGetResolver()
+    public function testGetResolver(): void
     {
         self::assertEquals($this->resolver->reveal(), $this->feature_container->getResolver('test'));
     }
 
-    public function testGetResolverChain()
+    public function testGetResolverChain(): void
     {
         self::assertInstanceOf(ChainFeatureResolver::class, $this->feature_container->getResolver('chain'));
     }
 
-    /**
-     * @expectedException Yannickl88\FeaturesBundle\Feature\Exception\ResolverNotFoundException
-     */
-    public function testCreateFeatureMissingResolver()
+    public function testCreateFeatureMissingResolver(): void
     {
+        $this->expectException(ResolverNotFoundException::class);
         $this->feature_container->getResolver('foz');
     }
 }

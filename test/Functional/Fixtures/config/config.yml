@@ -24,7 +24,7 @@ services:
         class: Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass
         public: true
         arguments:
-            - "@features.tag"
+            - '@features.tag'
         tags:
             - { name: features.tag, tag: test2 }
 

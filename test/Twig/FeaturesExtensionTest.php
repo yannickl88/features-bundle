@@ -18,14 +18,14 @@ class FeaturesExtensionTest extends TestCase
      */
     private $features_extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->feature_container = $this->prophesize(FeatureContainerInterface::class);
 
         $this->features_extension = new FeaturesExtension($this->feature_container->reveal());
     }
 
-    public function testGetFunctions()
+    public function testGetFunctions(): void
     {
         /* @var $functions TwigFunction[] */
         $functions = $this->features_extension->getFunctions();
@@ -35,12 +35,12 @@ class FeaturesExtensionTest extends TestCase
 
         $this->feature_container->get('foo')->willReturn($feature);
 
-        self::assertEquals('feature', $functions[0]->getName());
-        self::assertEquals(true, call_user_func($functions[0]->getCallable(), 'foo'));
+        self::assertSame('feature', $functions[0]->getName());
+        self::assertSame(true, call_user_func($functions[0]->getCallable(), 'foo'));
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
-        self::assertEquals('features_extension', $this->features_extension->getName());
+        self::assertSame('features_extension', $this->features_extension->getName());
     }
 }
