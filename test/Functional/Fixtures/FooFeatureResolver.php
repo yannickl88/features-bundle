@@ -5,8 +5,8 @@ use Yannickl88\FeaturesBundle\Feature\FeatureResolverInterface;
 
 class FooFeatureResolver implements FeatureResolverInterface
 {
-    public function isActive(array $options = [])
+    public function isActive(array $options = []): bool
     {
-        return in_array(42, $options);
+        return in_array(42, $options, true);
     }
 }

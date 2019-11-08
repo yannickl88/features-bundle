@@ -15,7 +15,7 @@ final class FeaturesBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new ConfigureFeaturesCompilerPass());
         $container->addCompilerPass(new ReplaceFeaturesCompilerPass(), PassConfig::TYPE_BEFORE_REMOVING);

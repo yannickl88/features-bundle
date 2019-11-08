@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Yannickl88\FeaturesBundle\Feature\DeprecatedFeature;
 use Yannickl88\FeaturesBundle\Feature\Feature;
 use Yannickl88\FeaturesBundle\Feature\FeatureContainer;
+use Yannickl88\FeaturesBundle\Feature\FeatureFactory;
 
 /**
  * Compiler pass which collects and create the feature tag services which can
@@ -25,10 +26,10 @@ final class ConfigureFeaturesCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        // configure the resolvers
+        // Configure the resolvers.
         $resolvers = $this->configureResolvers($container);
 
-        // configure the tags
+        // Configure the tags.
         $this->configureTags($container, $resolvers);
     }
 
@@ -38,7 +39,7 @@ final class ConfigureFeaturesCompilerPass implements CompilerPassInterface
      * @param ContainerBuilder $container
      * @return string[]
      */
-    private function configureResolvers(ContainerBuilder $container)
+    private function configureResolvers(ContainerBuilder $container): array
     {
         $services  = $container->findTaggedServiceIds('features.resolver');
         $resolvers = ['chain' => true];
@@ -77,7 +78,7 @@ final class ConfigureFeaturesCompilerPass implements CompilerPassInterface
      * @param string[]         $configured_resolvers
      * @return string[]
      */
-    private function configureTags(ContainerBuilder $container, array $configured_resolvers)
+    private function configureTags(ContainerBuilder $container, array $configured_resolvers): array
     {
         $tags = $container->getParameter('features.tags');
         $all  = [];
@@ -96,7 +97,7 @@ final class ConfigureFeaturesCompilerPass implements CompilerPassInterface
 
             $definition = new Definition(Feature::class);
             $definition->setPublic(true);
-            $definition->setFactory([new Reference('features.factory'), 'createFeature']);
+            $definition->setFactory([new Reference(FeatureFactory::class), 'createFeature']);
             $definition->setArguments([$tag, $options]);
 
             $container->setDefinition('features.tag.' . $param_name, $definition);

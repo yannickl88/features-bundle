@@ -6,11 +6,7 @@ namespace Yannickl88\FeaturesBundle\Feature\Exception;
  */
 class ResolverNotFoundException extends \RuntimeException
 {
-    /**
-     * @param string $resolver_name
-     * @param mixed  $previous
-     */
-    public function __construct($resolver_name, $previous = null)
+    public function __construct(string $resolver_name, ?\Throwable $previous = null)
     {
         parent::__construct(sprintf(
             'Resolver "%s" was not found, did you forget to tag it with "features.resolver"?',

@@ -21,10 +21,9 @@ final class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $builder = new TreeBuilder();
-        $root    = $builder->root('features');
+        $builder = new TreeBuilder('features');
 
-        $root
+        $builder->getRootNode()
             ->children()
                 ->arrayNode('tags')
                     ->useAttributeAsKey('name')

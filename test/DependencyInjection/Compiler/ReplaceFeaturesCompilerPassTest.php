@@ -4,6 +4,7 @@ namespace Yannickl88\FeaturesBundle\DependencyInjection\Compiler;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 use Yannickl88\FeaturesBundle\Feature\FeatureContainer;
 use Yannickl88\FeaturesBundle\Feature\FeatureFactory;
@@ -19,12 +20,12 @@ class ReplaceFeaturesCompilerPassTest extends TestCase
      */
     private $features_compiler_pass;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->features_compiler_pass = new ReplaceFeaturesCompilerPass();
     }
 
-    public function testProcess()
+    public function testProcess(): void
     {
         $container = new ContainerBuilder();
 
@@ -61,11 +62,7 @@ class ReplaceFeaturesCompilerPassTest extends TestCase
         self::assertEquals('features.tag.foo', $target->getArgument(1)->__toString());
     }
 
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
-     * @expectedExceptionMessage The value for "tag" is missing in the tag "features.tag" for service "test.service".
-     */
-    public function testProcessMissingTag()
+    public function testProcessMissingTag(): void
     {
         $container = new ContainerBuilder();
 
@@ -92,14 +89,14 @@ class ReplaceFeaturesCompilerPassTest extends TestCase
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'The value for "tag" is missing in the tag "features.tag" for service "test.service".'
+        );
         $this->features_compiler_pass->process($container);
     }
 
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Multiple "features.tag" tags found for service "test.service", only one is allowed per service.
-     */
-    public function testProcessMultipleTags()
+    public function testProcessMultipleTags(): void
     {
         $container = new ContainerBuilder();
 
@@ -127,14 +124,14 @@ class ReplaceFeaturesCompilerPassTest extends TestCase
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Multiple "features.tag" tags found for service "test.service", only one is allowed per service.'
+        );
         $this->features_compiler_pass->process($container);
     }
 
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Unknown tag "bar" used in the "feature.tag" of service "test.service".
-     */
-    public function testProcessUnknownTag()
+    public function testProcessUnknownTag(): void
     {
         $container = new ContainerBuilder();
 
@@ -161,6 +158,10 @@ class ReplaceFeaturesCompilerPassTest extends TestCase
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Unknown tag "bar" used in the "feature.tag" of service "test.service".'
+        );
         $this->features_compiler_pass->process($container);
     }
 }

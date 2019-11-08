@@ -13,19 +13,15 @@ interface FeatureContainerInterface
      * Return a features by give name. If the feature was not found, an
      * exception is thrown.
      *
-     * @param string $tag
-     * @return Feature
      * @throws FeatureNotFoundException when feature was not found
      */
-    public function get($tag);
+    public function get(string $tag): Feature;
 
     /**
      * Return a resolver by given name. If the resolver was not found, an
      * exception is thrown.
      *
-     * @param string $name
-     * @return FeatureResolverInterface
      * @throws ResolverNotFoundException when resolver was not found
      */
-    public function getResolver($name);
+    public function getResolver(string $name): FeatureResolverInterface;
 }

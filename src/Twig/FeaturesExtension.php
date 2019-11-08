@@ -10,14 +10,8 @@ use Yannickl88\FeaturesBundle\Feature\FeatureContainerInterface;
  */
 class FeaturesExtension extends AbstractExtension
 {
-    /**
-     * @var FeatureContainerInterface
-     */
     private $container;
 
-    /**
-     * @param FeatureContainerInterface $container
-     */
     public function __construct(FeatureContainerInterface $container)
     {
         $this->container = $container;
@@ -26,7 +20,7 @@ class FeaturesExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('feature', function ($tag) {
@@ -38,7 +32,7 @@ class FeaturesExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'features_extension';
     }

@@ -4,6 +4,7 @@ namespace Yannickl88\FeaturesBundle\DependencyInjection\Compiler;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 use Yannickl88\FeaturesBundle\Feature\FeatureContainer;
 use Yannickl88\FeaturesBundle\Feature\FeatureFactory;
@@ -19,12 +20,12 @@ class ConfigureFeaturesCompilerPassTest extends TestCase
      */
     private $configure_features_compiler_pass;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configure_features_compiler_pass = new ConfigureFeaturesCompilerPass();
     }
 
-    public function testProcess()
+    public function testProcess(): void
     {
         $container = new ContainerBuilder();
 
@@ -64,11 +65,7 @@ class ConfigureFeaturesCompilerPassTest extends TestCase
         self::assertEquals('features.tag', $target->getArgument(1)->__toString());
     }
 
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
-     * @expectedExceptionMessage The value for "config-key" is missing in the tag "features.tag" for service "test.resolver".
-     */
-    public function testProcessMissingConfigKey()
+    public function testProcessMissingConfigKey(): void
     {
         $container = new ContainerBuilder();
 
@@ -84,14 +81,14 @@ class ConfigureFeaturesCompilerPassTest extends TestCase
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'The value for "config-key" is missing in the tag "features.tag" for service "test.resolver".'
+        );
         $this->configure_features_compiler_pass->process($container);
     }
 
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
-     * @expectedExceptionMessage The config-key "resolver" is already configured by resolver "test.resolver1".
-     */
-    public function testProcessDuplicateConfigKey()
+    public function testProcessDuplicateConfigKey(): void
     {
         $container = new ContainerBuilder();
 
@@ -111,14 +108,14 @@ class ConfigureFeaturesCompilerPassTest extends TestCase
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['resolver' => []]);
 
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'The config-key "resolver" is already configured by resolver "test.resolver1".'
+        );
         $this->configure_features_compiler_pass->process($container);
     }
 
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Unknown resolver(s) "missing" configured for feature tag "foo".
-     */
-    public function testProcessMissingResolver()
+    public function testProcessMissingResolver(): void
     {
         $container = new ContainerBuilder();
 
@@ -138,6 +135,10 @@ class ConfigureFeaturesCompilerPassTest extends TestCase
         $container->setParameter('features.tags', ['foo' => 'foo']);
         $container->setParameter('features.tags.foo.options', ['missing' => []]);
 
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Unknown resolver(s) "missing" configured for feature tag "foo".'
+        );
         $this->configure_features_compiler_pass->process($container);
     }
 }

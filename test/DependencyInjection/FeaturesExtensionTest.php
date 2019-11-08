@@ -15,7 +15,7 @@ class FeaturesExtensionTest extends TestCase
      */
     private $features_extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->features_extension = new FeaturesExtension();
     }

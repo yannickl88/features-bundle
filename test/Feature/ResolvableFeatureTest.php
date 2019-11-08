@@ -17,7 +17,7 @@ class ResolvableFeatureTest extends TestCase
      */
     private $resolvable_feature;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->name     = 'foo';
         $this->resolver = $this->prophesize(Resolver::class);
@@ -28,22 +28,22 @@ class ResolvableFeatureTest extends TestCase
         );
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
-        self::assertEquals($this->name, $this->resolvable_feature->getName());
+        self::assertSame($this->name, $this->resolvable_feature->getName());
     }
 
     /**
      * @dataProvider resolverProvider
      */
-    public function testisActive($expected_active, $resolver_active)
+    public function testIsActive(bool $expected_active, bool $resolver_active): void
     {
         $this->resolver->resolve()->willReturn($resolver_active);
 
-        self::assertEquals($expected_active, $this->resolvable_feature->isActive());
+        self::assertSame($expected_active, $this->resolvable_feature->isActive());
     }
 
-    public function resolverProvider()
+    public function resolverProvider(): iterable
     {
         return [
             [true, true],

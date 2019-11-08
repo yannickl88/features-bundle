@@ -6,14 +6,8 @@ namespace Yannickl88\FeaturesBundle\Feature;
  */
 class ChainFeatureResolver implements FeatureResolverInterface
 {
-    /**
-     * @var FeatureContainerInterface
-     */
     private $feature_container;
 
-    /**
-     * @param FeatureContainerInterface $feature_container
-     */
     public function __construct(FeatureContainerInterface $feature_container)
     {
         $this->feature_container = $feature_container;
@@ -22,7 +16,7 @@ class ChainFeatureResolver implements FeatureResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function isActive(array $options = [])
+    public function isActive(array $options = []): bool
     {
         $resolver = new Resolver();
 

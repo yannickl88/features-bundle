@@ -15,7 +15,7 @@ class FeatureFactoryTest extends TestCase
      */
     private $feature_factory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->feature_container = $this->prophesize(FeatureContainerInterface::class);
 
@@ -24,7 +24,7 @@ class FeatureFactoryTest extends TestCase
         );
     }
 
-    public function testCreateFeature()
+    public function testCreateFeature(): void
     {
         $resolver1 = $this->prophesize(FeatureResolverInterface::class);
         $resolver2 = $this->prophesize(FeatureResolverInterface::class);
@@ -35,6 +35,6 @@ class FeatureFactoryTest extends TestCase
         $feature = $this->feature_factory->createFeature('foobar', ['foo' => [], 'bar' => []]);
 
         self::assertInstanceOf(ResolvableFeature::class, $feature);
-        self::assertEquals('foobar', $feature->getName());
+        self::assertSame('foobar', $feature->getName());
     }
 }

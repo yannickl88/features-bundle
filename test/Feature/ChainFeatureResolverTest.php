@@ -16,7 +16,7 @@ class ChainFeatureResolverTest extends TestCase
      */
     private $chain_feature_resolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->feature_container = $this->prophesize(FeatureContainerInterface::class);
 
@@ -25,7 +25,7 @@ class ChainFeatureResolverTest extends TestCase
         );
     }
 
-    public function testIsActive()
+    public function testIsActive(): void
     {
         $resolver1 = $this->prophesize(FeatureResolverInterface::class);
         $resolver2 = $this->prophesize(FeatureResolverInterface::class);
