@@ -11,16 +11,17 @@ env:
 
 php:
     - 7.2
+    - 7.3
 
 matrix:
   include:
     - php: 7.2
-      env: COMPOSER_FLAGS="" SYMFONY_VERSION="4.0.*"
-    - php: 7.2
-      env: COMPOSER_FLAGS="" SYMFONY_VERSION="4.1.*"
-    - php: 7.2
       env: COMPOSER_FLAGS="" SYMFONY_VERSION="4.2.*"
     - php: 7.2
+      env: COMPOSER_FLAGS="" SYMFONY_VERSION="4.3.*"
+    - php: 7.3
+      env: COMPOSER_FLAGS="" SYMFONY_VERSION="4.2.*"
+    - php: 7.3
       env: COMPOSER_FLAGS="" SYMFONY_VERSION="4.3.*"
 
 before_install: if [[ "$SYMFONY_VERSION" != "" ]]; then composer require --no-update symfony/symfony:${SYMFONY_VERSION}; fi
