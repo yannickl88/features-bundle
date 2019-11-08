@@ -4,8 +4,8 @@ This Symfony bundle provides a way of managing features within a project. A comm
 With this bundle you can configure features to be active or inactive. Using resolvers you decide when a feature is active or not.
 
 Requirements:
-- PHP 5.5 or higher, including php 7
-- Symfony 2.7 or higher, including 3.0
+- PHP 7.2 or higher
+- Symfony 4.2 or higher
  
 Recommended installation is via composer: `composer require yannickl88/features-bundle`.
 
@@ -48,7 +48,7 @@ services:
     app.features.request_resolver:
         class: App\Feature\RequestResolver
         arguments:
-            - "@request_stack"
+            - '@Yannickl88\FeaturesBundle\Feature\Feature'
         tags:
             # config-key is set to resolve the configured key: "request" with the options "beta" and "on"
             - { name: features.resolver, config-key: request }
@@ -74,7 +74,7 @@ class RequestResolver implements FeatureResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function isActive(array $options = [])
+    public function isActive(array $options = []): bool
     {
         // Feature is inactive when there is no request
         if (null === $request = $this->request_stack->getMasterRequest()) {
@@ -94,7 +94,7 @@ services:
     app.some.service:
        class: App\Some\Service
        arguments:
-           - "@features.tag"
+           - '@Yannickl88\FeaturesBundle\Feature\Feature'
        tags:
            - { name: features.tag, tag: beta }
 ```
@@ -113,7 +113,7 @@ class Service
         $this->feature = $feature;
     }
 
-    public function someMethod()
+    public function someMethod(): void
     {
         if ($this->feature->isActive()) {
             // do some extra beta logic when this feature is active
