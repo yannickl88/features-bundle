@@ -10,6 +10,7 @@ services:
     Yannickl88\FeaturesBundle\Feature\FeatureFactory:
         - '@Yannickl88\FeaturesBundle\Feature\FeatureContainer'
 
+    Yannickl88\FeaturesBundle\Feature\FeatureContainerInterface: '@Yannickl88\FeaturesBundle\Feature\FeatureContainer'
     Yannickl88\FeaturesBundle\Feature\FeatureContainer:
         public: true
         arguments:
