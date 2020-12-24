@@ -45,6 +45,7 @@ framework:
 twig:
     debug:            '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    default_path: '%kernel.project_dir%/test/Functional/Fixtures/templates/'
 
 features:
     tags:
