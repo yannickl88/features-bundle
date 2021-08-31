@@ -2,15 +2,18 @@
 namespace Yannickl88\FeaturesBundle\Twig;
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Twig\TwigFunction;
 use Yannickl88\FeaturesBundle\Feature\Feature;
 use Yannickl88\FeaturesBundle\Feature\FeatureContainerInterface;
 
 /**
- * @covers Yannickl88\FeaturesBundle\Twig\FeaturesExtension
+ * @covers \Yannickl88\FeaturesBundle\Twig\FeaturesExtension
  */
 class FeaturesExtensionTest extends TestCase
 {
+    use ProphecyTrait;
+
     private $feature_container;
 
     /**

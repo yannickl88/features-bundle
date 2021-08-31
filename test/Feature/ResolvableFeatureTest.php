@@ -2,13 +2,15 @@
 namespace Yannickl88\FeaturesBundle\Feature;
 
 use PHPUnit\Framework\TestCase;
-use Yannickl88\FeaturesBundle\Feature\Resolver;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
- * @covers Yannickl88\FeaturesBundle\Feature\ResolvableFeature
+ * @covers \Yannickl88\FeaturesBundle\Feature\ResolvableFeature
  */
 class ResolvableFeatureTest extends TestCase
 {
+    use ProphecyTrait;
+
     private $name;
     private $resolver;
 

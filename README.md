@@ -4,7 +4,7 @@ This Symfony bundle provides a way of managing features within a project. A comm
 With this bundle you can configure features to be active or inactive. Using resolvers you decide when a feature is active or not.
 
 Requirements:
-- PHP 7.2 or higher
+- PHP 7.3 or higher
 - Symfony 4.2 or higher
  
 Recommended installation is via composer: `composer require yannickl88/features-bundle`.

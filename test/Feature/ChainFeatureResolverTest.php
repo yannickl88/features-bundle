@@ -2,13 +2,15 @@
 namespace Yannickl88\FeaturesBundle\Feature;
 
 use PHPUnit\Framework\TestCase;
-use Yannickl88\FeaturesBundle\Feature\FeatureContainerInterface;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
- * @covers Yannickl88\FeaturesBundle\Feature\ChainFeatureResolver
+ * @covers \Yannickl88\FeaturesBundle\Feature\ChainFeatureResolver
  */
 class ChainFeatureResolverTest extends TestCase
 {
+    use ProphecyTrait;
+
     private $feature_container;
 
     /**

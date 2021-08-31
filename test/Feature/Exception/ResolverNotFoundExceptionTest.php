@@ -4,7 +4,7 @@ namespace Yannickl88\FeaturesBundle\Feature\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Yannickl88\FeaturesBundle\Feature\Exception\ResolverNotFoundException
+ * @covers \Yannickl88\FeaturesBundle\Feature\Exception\ResolverNotFoundException
  */
 class ResolverNotFoundExceptionTest extends TestCase
 {

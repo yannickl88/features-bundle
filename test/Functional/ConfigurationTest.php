@@ -6,6 +6,9 @@ use Yannickl88\FeaturesBundle\Feature\DeprecatedFeature;
 use Yannickl88\FeaturesBundle\Feature\FeatureContainer;
 use Yannickl88\FeaturesBundle\Functional\Fixtures\TestClass;
 
+/**
+ * @coversNothing
+ */
 class ConfigurationTest extends KernelTestCase
 {
     protected function setUp(): void

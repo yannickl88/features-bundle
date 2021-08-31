@@ -7,7 +7,7 @@ use Yannickl88\FeaturesBundle\DependencyInjection\Compiler\ConfigureFeaturesComp
 use Yannickl88\FeaturesBundle\DependencyInjection\Compiler\ReplaceFeaturesCompilerPass;
 
 /**
- * @covers Yannickl88\FeaturesBundle\FeaturesBundle
+ * @covers \Yannickl88\FeaturesBundle\FeaturesBundle
  */
 class FeaturesBundleTest extends TestCase
 {
