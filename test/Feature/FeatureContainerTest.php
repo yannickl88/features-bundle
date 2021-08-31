@@ -2,15 +2,18 @@
 namespace Yannickl88\FeaturesBundle\Feature;
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Yannickl88\FeaturesBundle\Feature\Exception\FeatureNotFoundException;
 use Yannickl88\FeaturesBundle\Feature\Exception\ResolverNotFoundException;
 
 /**
- * @covers Yannickl88\FeaturesBundle\Feature\FeatureContainer
+ * @covers \Yannickl88\FeaturesBundle\Feature\FeatureContainer
  */
 class FeatureContainerTest extends TestCase
 {
+    use ProphecyTrait;
+
     private $container;
     private $feature;
     private $features;

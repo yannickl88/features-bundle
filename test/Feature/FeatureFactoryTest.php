@@ -2,12 +2,15 @@
 namespace Yannickl88\FeaturesBundle\Feature;
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
- * @covers Yannickl88\FeaturesBundle\Feature\FeatureFactory
+ * @covers \Yannickl88\FeaturesBundle\Feature\FeatureFactory
  */
 class FeatureFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     private $feature_container;
 
     /**

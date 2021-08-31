@@ -4,7 +4,7 @@ namespace Yannickl88\FeaturesBundle\Feature\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Yannickl88\FeaturesBundle\Feature\Exception\FeatureNotFoundException
+ * @covers \Yannickl88\FeaturesBundle\Feature\Exception\FeatureNotFoundException
  */
 class FeatureNotFoundExceptionTest extends TestCase
 {
