@@ -18,7 +18,7 @@ class ConfigurationTest extends KernelTestCase
 
     public function testFeatures(): void
     {
-        $container = static::$kernel->getContainer();
+        $container = self::getContainer();
         $features  = $container->get(FeatureContainer::class);
 
         // check if all the feature services are correcly configured
@@ -57,7 +57,7 @@ class ConfigurationTest extends KernelTestCase
 
     public function testTwigFeature(): void
     {
-        $container = static::$kernel->getContainer();
+        $container = self::getContainer();
 
         self::assertEquals(
             "feature is off",
