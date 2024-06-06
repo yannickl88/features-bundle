@@ -28,7 +28,7 @@
         "phpunit/phpunit":          "^9.5.8",
         "symfony/twig-bundle":      "^5.4||^6.0",
         "symfony/yaml":             "^5.4||^6.0",
-        "twig/twig":                "^2.12.1"
+        "twig/twig":                "^3.4.3"
     },
     "suggest": {
         "twig/twig": "Allows use of features in twig templates through the FeaturesExtension"
