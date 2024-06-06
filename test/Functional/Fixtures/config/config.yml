@@ -41,6 +41,7 @@ services:
 
 framework:
     secret: test
+    test: true
 
 twig:
     debug:            '%kernel.debug%'
